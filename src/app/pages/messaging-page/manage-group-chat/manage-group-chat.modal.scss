@@ -1,0 +1,158 @@
+ion-list {
+    background: transparent;
+    // padding: 0;
+}
+
+h3 {
+    color: #01bbe6;
+    margin: 0;
+    font-size: 13px;
+}
+
+.contact-card {
+    padding: 12px;
+    margin: 5px 14px;
+
+
+    &.selected {
+        background: #b9ffb9;
+    }
+}
+
+.swipe-card {
+    margin: 10px 25px;
+    padding: 0 8px;
+
+    ion-buttons {
+        height: 100%;
+
+        ion-button {
+            --padding-start: 10px;
+            --padding-end: 10px;
+        }
+    }
+}
+
+ion-segment.wide-screen {
+    min-width: 200px;
+    margin: 15px 4px;
+}
+
+.loading-container {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.spinner {
+    min-width: 3rem;
+    min-height: 3rem;
+}
+
+.align-center {
+    text-align: center;
+}
+
+.info-icons {
+    font-size: 42px;
+}
+
+.gray {
+    color: gray;
+}
+
+.list-header {
+    overflow: hidden;
+    margin-top: env(safe-area-inset-top);
+    border-bottom: 1px solid #80808026;
+
+    .selected-toolbar {
+        text-align: center;
+        --max-height: 0;
+        --min-height: 0;
+        --padding-bottom: 6px;
+    }
+
+    .segment-toolbar {
+        padding: 4px;
+    }
+}
+
+.chevron {
+    position: relative;
+    top: 2px;
+}
+
+.slidable-item {
+    --inner-padding-start: 0;
+    --padding-start: 0;
+    --background: transparent;
+
+    ion-card {
+        width: 100%;
+    }
+}
+
+ion-item-options {
+    border: none;
+
+    ion-item-option {
+        --background: transparent;
+
+        ion-icon {
+            margin: 0;
+        }
+
+        &.end-button {
+            margin-right: 20px;
+        }
+    }
+
+}
+
+ion-card {
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 2px 12px;
+}
+
+.group-toolbar {
+    padding: 1rem;
+    overflow: hidden;
+
+    ion-input {
+        margin-left: 1rem;
+    }
+
+    ion-avatar {
+        min-height: 60px;
+        min-width: 60px;
+        max-height: 60px;
+        max-width: 60px;
+        position: relative;
+
+        &.desktop {
+            min-height: 130px;
+            min-width: 130px;
+            max-height: 130px;
+            max-width: 130px;
+        }
+
+        &:hover {
+            opacity: .8;
+        }
+
+        .group-image {
+            min-height: 100%;
+            background-repeat: no-repeat;
+            background-size: cover;
+            -moz-border-radius: 100px;
+            -webkit-border-radius: 100px;
+            border-radius: 100px;
+        }
+    }
+
+    .group-name-validation {
+        margin-left: 1rem;
+        font-style: italic;
+    }
+}

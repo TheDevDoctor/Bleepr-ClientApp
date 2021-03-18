@@ -1,0 +1,123 @@
+.header-img {
+    margin: auto;
+
+    img {
+        min-width: 100%;
+    }
+
+    &.normal {
+        max-width: 700px;
+    }
+}
+
+// ion-header {
+//     @media (max-width: 768px) {
+//         background: #0075d0;
+
+//         ion-toolbar {
+//             --background: #0075d0;
+//         }
+
+//         ion-title {
+//             color: white;
+//         }
+
+//         ion-back-button {
+//             color: #0075d0;
+//         }
+//     }
+// }
+
+ion-content {
+    --background: white;
+}
+
+.article-container {
+    max-width: 700px;
+    margin: auto;
+    margin-bottom: 100px;
+
+    .article-text-cont {
+        @media (max-width: 768px) {
+            padding: 6px 16px;
+        }
+    }
+}
+
+.article-title {
+    font-size: 42px;
+
+    @media (max-width: 768px) {
+        font-size: 28px;
+    }
+}
+
+.date-pub {
+    color: #676767;
+    margin: 0;
+}
+
+.all-auth-btn-cont {
+    text-align: center;
+
+    .all-auth-button {
+        color: #3bc2e9;
+        font-size: 12px;
+    }
+}
+
+.reference {
+    margin-bottom: 8px;
+
+    .authors {
+        font-weight: bold;
+    }
+}
+
+.published-cont {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+ion-back-button {
+    padding: 7px;
+}
+
+.interact-button-cont {
+    position: relative;
+
+    ion-badge {
+        position: absolute;
+        right: -3px;
+        bottom: 1px;
+    }
+}
+
+.interact-buttons {
+    justify-content: space-evenly;
+}
+
+.comments-container {
+    margin-top: 12px;
+    padding: 12px;
+}
+
+
+ion-fab-button[data-desc] {
+    position: relative;
+  }
+  
+  ion-fab-button[data-desc]::after {
+    position: absolute;
+    content: attr(data-desc);
+    z-index: 1;
+    right: 55px;
+    bottom: 2px;
+    background-color: var(--ion-color-primary);
+    padding: 7px 10px;
+    border-radius: 11px;
+    color: white;
+    background: #9e00c3;
+    box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12);
+}

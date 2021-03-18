@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button fill="clear" color="medium" (click)="onCloseModal()">
+        Close
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Report Content</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <form [formGroup]="reportForm">
+    <ion-item class="custom-input align-left">
+      <ion-label>Issue</ion-label>
+      <ion-select placeholder="Select One" formControlName="issue">
+        <ion-select-option value="abusive behaviour">Abusive Behaviour</ion-select-option>
+        <ion-select-option value="misinformation">Misinformation</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <p class="desc-text">Please provide a description of your concerns with this content</p>
+
+    <ion-item class="custom-input align-left">
+      <ion-label position="stacked">Description</ion-label>
+      <ion-textarea auto-grow="true" formControlName="description"></ion-textarea>
+    </ion-item>
+
+    <p class="desc-text">Thank you for sharing your concerns. At Bleepr we strive to ensure the highest quality content
+      and take all
+      reports very seriously. We do not accept any form of abusive behaviour and strive to stamp out any and all
+      misinformation. Once you
+      have reported content this will be flagged to one of our team of content reviewers to ensure the content is
+      meeting our high standards. If you do
+      not want to report this content, but don't want to see this on your feed, then press only the remove from feed
+      button below.
+    </p>
+  </form>
+</ion-content>
+
+<ion-footer>
+  <ion-buttons>
+    <ion-button color="secondary" expand="full" class="action-button" (click)="removeFromFeed()">Remove From Feed</ion-button>
+    <ion-button type="submit" [disabled]="!reportForm.valid" color="danger" expand="full" class="action-button" (click)="onSubmitReport()">
+      Report
+      Content</ion-button>
+  </ion-buttons>
+</ion-footer>

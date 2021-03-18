@@ -1,0 +1,325 @@
+// Conversations UI =========================================================================================
+ion-item {
+    --padding-start: 8px;
+}
+
+ion-menu {
+    --width: 100%;
+}
+
+ion-split-pane {
+    @media (min-width: 576px) {
+        margin-top: 64px;
+    }
+}
+
+ion-searchbar {
+    --background: white;
+}
+
+.unread {
+    width: 10px;
+    height: 10px;
+    border-radius: 10px;
+    background-color: #3684ff;
+    margin-top: 15px;
+    margin-right: 8px;
+    align-self: flex-start;
+}
+
+ion-item h2 {
+    font-weight: 500 !important;
+}
+
+ion-item h3 {
+    color: #777;
+}
+
+.conversation-summary {
+    margin-left: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.frag-container {
+    display: flex;
+    align-items: center;
+    width: 80%;
+    margin-left: 0.3rem;
+
+    ion-avatar {
+        height: 40px;
+        width: 40px;
+        min-width: 40px;
+        margin-right: 12px;
+        overflow: hidden;
+
+        .image-div {
+            min-height: 100%;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    }
+
+    h6 {
+        margin: 0 0 4px;
+        font-weight: 600;
+        font-size: 15px;
+    }
+
+    .info-text {
+        font-size: 12px;
+    }
+
+    .top-text-cont {
+        flex: auto;
+        padding-top: 0.2rem;
+    }
+
+    .role {
+        margin-bottom: 2px;
+        font-size: 13px;
+        color: #01bbe6;
+    }
+
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
+}
+
+// Chat pane UI ===============================================================================================
+.chat-header {
+    position: absolute;
+}
+
+// Messages pane with no conversation selected
+.messages-no-conversation-selected {
+    height: 100%;
+
+    ion-row {
+        height: 50%;
+
+        ion-icon {
+            font-size: 6rem;
+        }
+    }
+}
+
+.message-cont {
+    display: flex;
+    align-items: flex-end;
+    min-height: 100%;
+}
+
+.messages-loading {
+    height: 100%;
+}
+
+// Chat bubble UI
+.messages-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    margin-bottom: 68px;
+    min-width: 100%;
+    //flex-direction: row-reverse;
+
+    li {
+        // display: inline-block;
+        clear: both;
+        padding: 0;
+        overflow: hidden;
+        border-radius: 20px;
+        margin-bottom: 2px;
+    }
+
+    .message-text {
+        padding: 10px;
+    }
+
+    .time-split {
+        text-align: center;
+        font-size: 12px;
+        padding-top: 20px;
+        margin-bottom: 10px;
+    }
+
+    .name-indication {
+        font-size: 14px;
+        padding: 8px 12px 0;
+
+        span {
+            font-size: 12px;
+        }
+    }
+
+    .received {
+        background: rgb(226, 226, 226);
+        float: left;
+        margin-right: 5vw;
+
+        &.first {
+            border-bottom-left-radius: 5px;
+        }
+    
+        &.middle {
+            border-bottom-left-radius: 5px;
+            border-top-left-radius: 5px;
+        }
+    
+        &.end {
+            border-top-left-radius: 5px;
+            border-bottom-left-radius: 20px;
+            margin-bottom: 10px;
+        }
+
+        &.single {
+            margin-bottom: 10px;
+        }
+    }
+
+    .sent {
+        float: right;
+        background: #b10be4;
+        color: #fff;
+        margin-left: 5vw;
+
+        &.first {
+            border-bottom-right-radius: 5px;
+        }
+    
+        &.middle {
+            border-bottom-right-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+    
+        &.end {
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 20px;
+            margin-bottom: 10px;
+        }
+
+        &.single {
+            margin-bottom: 10px;
+        }
+    }
+
+    
+
+    // .received+.sent {
+    //     border-bottom-right-radius: 5px;
+    //     margin-top: 10px;
+    // }
+
+    // .sent+.received {
+    //     border-bottom-left-radius: 5px;
+    //     margin-top: 10px;
+    // }
+
+    // .sent+.sent {
+    //     border-top-right-radius: 5px;
+    //     border-bottom-right-radius: 5px;
+    // }
+
+    // .received+.received {
+    //     border-top-left-radius: 5px;
+    //     border-bottom-left-radius: 5px;
+    // }
+
+    // .sent:last-of-type {
+    //     border-bottom-right-radius: 20px;
+    //     margin-bottom: 10px;
+    // }
+
+    // .received:last-of-type {
+    //     border-bottom-left-radius: 20px;
+    //     margin-bottom: 10px;
+    // }
+
+    .action {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        padding: 20px;
+
+        .action-content {
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-size: 14px;
+            text-align: center;
+
+            ion-icon {
+                position: relative;
+                top: 2px;
+            }
+        }
+    }
+
+}
+
+// Message input bar
+.chat-footer {
+    // position: absolute;
+    bottom: 0;
+    left: 0;
+    background: rgb(235, 235, 235);
+    width: 100%;
+
+    .new-comment-cont {
+        padding: 10px;
+        display: flex;
+
+        .user-avatar-cont {
+            align-self: flex-end;
+            padding-right: 0.5rem;
+
+            .chat-avatar {
+                max-height: 2.2rem;
+                min-height: 2.2rem;
+                max-width: 2.2rem;
+                min-width: 2.2rem;
+            }
+        }
+
+        .editable-cont {
+            max-height: 15rem;
+            overflow-y: auto;
+            border-radius: 10px;
+            background-color: #7979790f;
+            flex: auto;
+            display: flex;
+
+            .ion-textarea-cont {
+                flex: auto;
+                padding: 0 10px;
+
+                ion-textarea {
+                    font-size: 14px;
+                }
+            }
+
+            .post-cont {
+                ion-button {
+                    font-size: 14px;
+                }
+            }
+        }
+    }
+}
+
+ion-skeleton-text {
+    line-height: 0.8rem;
+    margin-bottom: 8px;
+}
+
+.new-msg-indicator-cont {
+    position: absolute;
+    right: 30px;
+
+    .new-msg-indicator {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: #b10be4;
+    }
+}

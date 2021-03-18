@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Bleepr</string>
+    <string name="title_activity_main">Bleepr</string>
+    <string name="package_name">io.bleepr.bleeprApp</string>
+    <string name="custom_url_scheme">msauth</string>
+</resources>

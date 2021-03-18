@@ -1,0 +1,137 @@
+<ion-header translucent class="main-header">
+  <app-site-header [navBack]="true" [page]="'editor'" [savedState]="isSaved" [isEdit]="isEdit" (publish)="onPublish()">
+    <ion-back-button></ion-back-button>
+  </app-site-header>
+</ion-header>
+
+
+
+<ion-content class="scroll-container" #scrollContainer scrollEvents="true" (ionScroll)="scrollEvent($event)">
+  <div slot="fixed" class="toolbar-position">
+    <ion-segment scrollable id="quill-toolbar">
+      <span class="ql-formats">
+        <button class="ql-bold"></button>
+        <button class="ql-italic"></button>
+      </span>
+      <span class="ql-formats">
+        <button class="ql-header" value="1"></button>
+        <button class="ql-header" value="2"></button>
+      </span>
+      <span class="ql-formats">
+        <button class="ql-image" *ngIf="theme === 'snow'"></button>
+        <button class="ql-video" *ngIf="theme === 'snow'"></button>
+        <button class="ql-blockquote"></button>
+        <button class="ql-link"></button>
+        <button class="ql-code-block"></button>
+        <button class="ql-formula"></button>
+      </span>
+      <span class="ql-formats">
+        <button class="ql-script" value="sub"></button>
+        <button class="ql-script" value="super"></button>
+      </span>
+      <span class="ql-formats">
+        <button class="custom-button" (click)="handleReference()">
+          <ion-icon src="assets/reference-icon.svg"></ion-icon>
+        </button>
+      </span>
+
+    </ion-segment>
+
+
+  </div>
+
+  <ng-container *ngIf="article">
+    <div #articleHeader>
+
+      <div class="top-pic" [ngClass]="{'picture': !!headerImage.url, 'no-picture': !(!!headerImage.url)}">
+        <div class="clickable-cont" (click)="onAddHeaderImage()" [style.display]="!!headerImage.url ? 'none': 'flex'">
+          <ion-icon name="images-outline" class="images-icon"></ion-icon>
+        </div>
+        <div *ngIf="article.headerImage" class="header-img-cont" [style.display]="headerImage.url ? 'block': 'none'"
+          [ngClass]="{'normal': article.headerImage.width == 'normal'}">
+          <img [src]="headerImage.safeUri" class="header-image">
+          <ion-segment [value]="article.headerImage.width" mode="ios" (ionChange)="segmentChanged($event)">
+            <ion-segment-button value="normal">
+              <ion-label>Normal</ion-label>
+            </ion-segment-button>
+            <ion-segment-button value="wide">
+              <ion-label>Wide</ion-label>
+            </ion-segment-button>
+          </ion-segment>
+
+          <ion-button class="img-cancel-button" (click)="cancelHeaderImage()">
+            <ion-icon slot="icon-only" name="close"></ion-icon>
+          </ion-button>
+        </div>
+      </div>
+      <div class="header-cont">
+        <div class="header">
+          <ion-textarea class="title" placeholder="Title" rows="1" autoGrow="true" [value]="this.article.title"
+            (ionChange)="onTitleChanged($event)"></ion-textarea>
+        </div>
+        <div class="header">
+          <div>
+            <ng-container *ngFor="let auth of article.authors">
+              <app-author-chip [author]="auth"></app-author-chip>
+            </ng-container>
+
+            <!-- Commented out as this is for adding additional authors which we don't have functionality for yet -->
+            <!-- <ion-chip (click)="presentAuthorList()">
+              <ion-avatar>
+                <img
+                  src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cGF0aCBmaWxsPSIjYzVkYmZmIiBkPSJNMCAwaDUxMnY1MTJIMHoiLz48cGF0aCBkPSJNMjU2IDMwNGM2MS42IDAgMTEyLTUwLjQgMTEyLTExMlMzMTcuNiA4MCAyNTYgODBzLTExMiA1MC40LTExMiAxMTIgNTAuNCAxMTIgMTEyIDExMnptMCA0MGMtNzQuMiAwLTIyNCAzNy44LTIyNCAxMTJ2NTZoNDQ4di01NmMwLTc0LjItMTQ5LjgtMTEyLTIyNC0xMTJ6IiBmaWxsPSIjODJhZWZmIi8+PC9zdmc+" />
+              </ion-avatar>
+              <ion-label>+ Author</ion-label>
+            </ion-chip> -->
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="article-content-con">
+      <quill-editor #editor *ngIf="scrollContainer" (onEditorCreated)="onEditorCreated($event)" id='editor'
+        [modules]="modules" format="object" [theme]="theme" (onContentChanged)="editorContentChanged($event)"
+        (onEditorChanged)="onEditorChanged($event)" (paste)="contentPasted()">
+
+      </quill-editor>
+
+      <div *ngIf="article.references.length > 0">
+
+        <h3>Reference</h3>
+        <div>
+          <div class="reference" *ngFor="let ref of article.references">
+            1.
+            <span class="authors">{{ createAuthorString(ref) }}</span>
+            <span class="title">{{ ref.title }}</span>
+            <span class="journal"> {{ ref.journal }}</span>
+            <span class="volume"> {{ ref.volume }}</span>
+            <span class="issue"> {{ ref.issue }}</span>
+            <span class="pages"> {{ ref.pages }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div [style.top.px]="actionTop" [style.left.px]="actionLeft" [style.opacity]="actionOpacity"
+        class="ql-action-btn">
+        <ion-button fill="clear" color="medium" (click)="actionButtonPressed()"
+          [ngClass]="{'action-open': actionContainerDisplay}">
+          <ion-icon src="assets/editor_plus.svg" slot="icon-only"></ion-icon>
+        </ion-button>
+        <div class="actions-cont" [style.display]="actionContainerDisplay ? 'block' : 'none'">
+          <ion-button fill="clear" color="medium" (click)="onAddImage()">
+            <ion-icon src="assets/editor_add_pic.svg" slot="icon-only"></ion-icon>
+          </ion-button>
+          <ion-button fill="clear" color="medium" (click)="onAddVideo()">
+            <ion-icon src="assets/editor_video_upload.svg" slot="icon-only"></ion-icon>
+          </ion-button>
+          <ion-button fill="clear" color="medium">
+            <ion-icon src="assets/editor_code_snippet.svg" slot="icon-only"></ion-icon>
+          </ion-button>
+          <ion-button fill="clear" color="medium" (click)="handleDivider()">
+            <ion-icon src="assets/editor_divider.svg" slot="icon-only"></ion-icon>
+          </ion-button>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</ion-content>

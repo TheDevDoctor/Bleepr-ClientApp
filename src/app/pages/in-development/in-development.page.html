@@ -1,0 +1,20 @@
+<ion-header *ngIf="title">
+  <ion-toolbar [ngClass]="{'popover-toolbar': source === 'popover'}">
+    <ion-buttons slot="start" *ngIf="source === 'modal'">
+      <ion-button (click)="onDismissModal()">
+        Close
+      </ion-button>
+    </ion-buttons>
+
+    <ion-title slot="primary">{{ title }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="container" [ngClass]="{'popover': source === 'popover'}">
+    <div class="inner-cont">
+      <ion-icon name="construct-outline" color="medium" *ngIf="source !== 'popover'"></ion-icon>
+      <h6 color="medium">This feature is currently under development, please check back soon.</h6>
+    </div>
+  </div>
+</ion-content>

@@ -1,0 +1,140 @@
+<ion-header translucent>
+  <ion-toolbar [ngClass]="{'preview-toolbar': currentView === 'preview'}">
+    <ion-buttons slot="start">
+      <ion-button fill="clear" color="medium" (click)="dismissModal(false)">
+        Close
+      </ion-button>
+    </ion-buttons>
+
+    <ion-title>{{ currentView }}</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button fill="clear" color="medium" (click)="onBackMyMedia()"
+        *ngIf="currentView === 'unsplash' || currentView === 'youtube'">
+        My Media
+      </ion-button>
+      <ion-button slot="end" fill="clear" color="medium" (click)="onFilterPopover($event)" *ngIf="(!fileType || fileType === 'any') && currentView === 'my media'">
+        <ion-icon slot="icon-only" name="filter-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <ion-toolbar *ngIf="currentView === 'unsplash'">
+    <div>
+      <ion-searchbar placeholder="Search Unsplash" (keyup.enter)="unsplashSearchPressed($event)"
+        (ionChange)="unsplashSearchChanged($event)"></ion-searchbar>
+      <div *ngIf="unsplashResultCount" class="results-count">{{ unsplashResultCount }} Results</div>
+    </div>
+  </ion-toolbar>
+
+  <ion-toolbar *ngIf="currentView === 'youtube'">
+    <ion-searchbar placeholder="Youtube Link" (ionChange)="onYoutubeLink($event)"></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="currentView !== 'preview' && currentView !== 'youtube'" class="height-100">
+    <div class="height-100">
+      <div *ngIf="!blobs" class="placeholder-text">
+        <div>Loading for your media</div>
+      </div>
+      <div *ngIf="blobs && blobs.length === 0" class="placeholder-text">
+        <div *ngIf="filter.fileType === 'media'">You don't have any media saved</div>
+        <div *ngIf="filter.fileType === 'documents'">You don't have any documents saved</div>
+      </div>
+
+      <div class="grid-list" [ngClass]="{'documents': filter.fileType === 'documents'}"
+        *ngIf="blobs && blobs.length > 0">
+        <ng-container *ngIf="currentView === 'my media'">
+          <ng-container *ngIf="filter.fileType === 'media'">
+            <ng-container *ngFor="let blob of blobs; let i = index">
+
+              <app-image-card *ngIf="blob.mediaType === 'image' && filter.mediaType.image"
+                [source]="blob.uri + '?' + sasToken" (selected)="blobImageSelected(i)">
+              </app-image-card>
+
+              <app-video-card *ngIf="blob.mediaType === 'video' && filter.mediaType.video"
+                [source]="blob.uri + '?' + sasToken" (selected)="blobVideoSelected(i)">
+              </app-video-card>
+
+            </ng-container>
+          </ng-container>
+          <ng-container *ngIf="filter.fileType === 'documents'">
+            <ng-container *ngFor="let blob of blobs; let i = index">
+              <app-document-card [filename]="blob.filename" [guid]="blob.guid" (selected)="blobDocumentSelected(i)">
+              </app-document-card>
+            </ng-container>
+          </ng-container>
+        </ng-container>
+
+
+        <ng-container *ngIf="currentView === 'unsplash'">
+          <app-image-card *ngFor="let img of unsplashResults; let i = index" [source]="img.urls.thumb"
+            (selected)="unsplashImageSelected(i)">
+          </app-image-card>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed"
+    *ngIf="currentView !== 'preview' && currentView !== 'youtube'">
+    <ion-fab-button>
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="top">
+      <ion-fab-button data-desc="From Files" (click)="onUploadFile()">
+        <ion-icon name="cloud-upload-outline"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button data-desc="Stock Images" (click)="onSearchUnsplash()" *ngIf="fileType !== 'video' && fileType !== 'document' && unsplash">
+        <ion-icon name="search-outline"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button data-desc="Embed Youtube" (click)="onEmbedYoutube()" *ngIf="fileType !== 'image' && fileType !== 'document' && youtube">
+        <ion-icon name="logo-youtube"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
+
+  <div *ngIf="currentView === 'preview'" class="app-image-wrapper">
+    <app-image-preview [mediaData]="mediaSelected"></app-image-preview>
+  </div>
+
+  <div *ngIf="currentView === 'youtube'" class="youtube-background">
+    <div class="youtube-wrapper">
+      <iframe *ngIf="mediaSelected" width="560" height="315" [src]="mediaSelected.safeUri" frameborder="0"
+        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadMoreResults($event)" *ngIf="currentView !== 'preview'">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+
+</ion-content>
+
+<ion-footer *ngIf="currentView === 'preview' || currentView === 'youtube'">
+  <ion-toolbar [ngClass]="{'preview-toolbar': currentView === 'preview'}">
+    <ion-buttons slot="start">
+      <ion-button fill="clear" (click)="cancelPreview()">
+        Cancel
+      </ion-button>
+    </ion-buttons>
+    <ion-title *ngIf="blobUploading" mode="ios">
+      <div class="loading-cont">
+        <div class="uploading-text">{{ uploadProgress < 1 ? 'Uploading File' : 'File Uploaded'}}</div>
+        <ion-progress-bar color="secondary" [value]="uploadProgress" class="overall-progress"
+          *ngIf="uploadProgress < 1"></ion-progress-bar>
+      </div>
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="dismissModal(true)" [disabled]="blobUploading">
+        Use
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>
+
+<input style="display: none" type="file" #fileInput (change)="onSelectedFile($event.target.files)"
+  [accept]="acceptType" />

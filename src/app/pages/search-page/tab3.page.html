@@ -1,0 +1,81 @@
+<ion-header class="main-header" translucent="true" *ngIf="!smallScreen">
+  <app-site-header [page]="'feed'" #header (searchEntered)="onHeaderSearch($event)"></app-site-header>
+</ion-header>
+
+<ion-header class="small-screen-header" mode="ios" translucent="true" *ngIf="smallScreen"
+  [ngClass]="{'hidden': headerHidden}">
+  <ion-toolbar>
+    <ion-searchbar class="mobile-searchbar" clear-icon="undefined" search-icon="undefined" mode="ios" inputmode="search" (keypress)="searchInputOccured($event.keyCode)"></ion-searchbar>
+  </ion-toolbar>
+
+  <ion-segment scrollable>
+    <ion-chip class="articles" (click)="optionPressed('articles')" [outline]="!searchOptions.articles">
+      <ion-icon color="primary" [name]="searchOptions.articles ? 'book-outline' : 'close-circle'"></ion-icon>
+      <ion-label color="primary">Articles</ion-label>
+    </ion-chip>
+    <ion-chip class="bleeps" (click)="optionPressed('bleeps')" [outline]="!searchOptions.bleeps">
+      <ion-icon [name]="searchOptions.bleeps ? 'disc-outline' : 'close-circle'" color="tertiary"></ion-icon>
+      <ion-label color="tertiary">Bleeps</ion-label>
+    </ion-chip>
+    <ion-chip class="users" (click)="optionPressed('users')" [outline]="!searchOptions.users">
+      <ion-icon *ngIf="searchOptions.users" src="assets/avatar.svg" color="danger"></ion-icon>
+      <ion-icon *ngIf="!searchOptions.users" name="close-circle" color="danger"></ion-icon>
+      <ion-label color="danger">Users</ion-label>
+    </ion-chip>
+    <div class="end-block"></div>
+  </ion-segment>
+</ion-header>
+
+
+<ion-content fullscreen [scrollEvents]="smallScreen" (ionScroll)="onScroll($event)"
+  style="--offset-top: 126px !important">
+  <ion-grid>
+    <ion-row>
+      <ion-col size-lg="3" class="ion-hide-lg-down"></ion-col>
+      <ion-col size-lg="6" size-md="8" size-sm="12">
+        <div>
+          <section *ngIf="searchOptions.users && userResults">
+            <div class="title-cont">
+              <h4>Users</h4>
+            </div>
+            <ion-slides [options]="slideOpts" *ngIf="userResults.length > 0">
+              <ion-slide *ngFor="let user of userResults">
+                <app-user-search-card [fragment]="user"></app-user-search-card>
+              </ion-slide>
+            </ion-slides>
+            <div *ngIf="userResults.length === 0" class="no-users-cont">
+              No users match this search
+            </div>
+          </section>
+
+          <section *ngIf="contentResults">
+            <div class="title-cont">
+              <h4>Content</h4>
+            </div>
+            <ng-container *ngFor="let item of contentResults">
+              <span [ngSwitch]="item.searchType">
+                <div *ngSwitchCase="'bleep'">
+                  <app-feed-card *ngIf="searchOptions.bleeps && bleepStats[item.id] && bleepLikes[item.id]" [userFragment]="userFragment" [bleep]="item"
+                    [stats]="bleepStats[item.id]" [setLikes]="bleepLikes[item.id]"></app-feed-card>
+                </div>
+                <div *ngSwitchCase="'article'">
+                  <app-feed-card *ngIf="searchOptions.articles && bleepStats[item.id] && bleepLikes[item.id]" [userFragment]="userFragment" [bleep]="item"
+                    [stats]="bleepStats[item.id]" [setLikes]="bleepLikes[item.id]"></app-feed-card>
+                </div>
+              </span>
+            </ng-container>
+            <div *ngIf="contentResults.length === 0" class="no-content-cont">
+              No content matches this search
+            </div>
+          </section>
+        </div>
+
+        <ion-infinite-scroll threshold="100px" (ionInfinite)="onInfiniteScroll($event)">
+          <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+          </ion-infinite-scroll-content>
+        </ion-infinite-scroll>
+      </ion-col>
+      <ion-col size-lg="3" class="ion-hide-lg-down"></ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

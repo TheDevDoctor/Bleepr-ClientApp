@@ -1,0 +1,30 @@
+ion-slides {
+    height: 100%;
+}
+
+.custom-input {
+    margin: auto;
+
+    &.job {
+        max-width: 320px;
+    }
+}
+
+.button-cont {
+    margin: 32px 22px 22px;
+}
+
+.text-cont {
+    padding: 0 16px;
+
+    @media (min-width: 768px) {
+        max-width: 50%;
+        margin: auto;
+    }
+}
+
+.slider-img {
+    @media (min-width: 768px) {
+        max-width: 50%;
+    }
+}

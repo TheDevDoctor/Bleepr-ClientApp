@@ -1,0 +1,12 @@
+<ion-card (click)="fileSelected()">
+
+  <div class="highlight" [ngClass]="{'surg': data.type == 'surgery', 'cond': data.type == 'condition'}"></div>
+  <div class="text-cont">
+    <div class="title">{{ data.name }}</div>
+    <div class="subtitle">This is the explanation for a flexor sheath infection</div>
+  </div>
+  <div class="icon-cont" [ngClass]="{'surg': data.type == 'surgery', 'cond': data.type == 'condition'}">
+    <ion-icon src="{{ data.type == 'surgery' ? 'assets/scalpel.svg' : 'assets/cancer.svg'  }}"></ion-icon>
+  </div>
+
+</ion-card>

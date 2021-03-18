@@ -1,0 +1,92 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Input Reference</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]='referenceForm' (ngSubmit)="addReference()">
+    <!-- <ion-list class="line-input"> -->
+    <div class="journal-cont">
+      <h5>Authors</h5>
+
+      <ion-grid>
+        <ion-row formArrayName="authors" *ngFor="let item of referenceFormAuthors.controls; let i = index;">
+          <ion-col>
+            <ion-item [formGroupName]="i">
+              <ion-label>First Name
+              </ion-label>
+              <ion-input formControlName="firstname"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-item [formGroupName]="i">
+              <ion-label>Surname
+              </ion-label>
+              <ion-input formControlName="surname"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <div style="text-align: center;">
+          <ion-button fill="clear" size="small" (click)="addNewAuthor()">+ Add Author</ion-button>
+        </div>
+      </ion-grid>
+    </div>
+    <div class="journal-cont">
+      <h5 style="margin-top: 0;">Journal</h5>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label>Title
+              </ion-label>
+              <ion-input formControlName='title'></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-item class="bottom-margin">
+              <ion-label>Year
+              </ion-label>
+              <ion-input formControlName='yearPublished' class="ion-text-right"></ion-input>
+            </ion-item>
+            <ion-item class="bottom-margin">
+              <ion-label>Journal
+              </ion-label>
+              <ion-input formControlName='journal' class="ion-text-right"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label>Volume
+              </ion-label>
+              <ion-input formControlName='volume' class="ion-text-right"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-item class="bottom-margin">
+              <ion-label>Issue
+              </ion-label>
+              <ion-input formControlName='issue' class="ion-text-right"></ion-input>
+            </ion-item>
+            <ion-item class="bottom-margin">
+              <ion-label>Pages
+              </ion-label>
+              <ion-input formControlName='pages' class="ion-text-right"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label>DOI
+              </ion-label>
+              <ion-input formControlName='doi' class="ion-text-right"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-button type="submit" expand="block" [disabled]="!referenceForm.valid">Submit</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+    <!-- </ion-list> -->
+  </form>
+</ion-content>

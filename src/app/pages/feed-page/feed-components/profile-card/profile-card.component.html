@@ -1,0 +1,32 @@
+<ion-card>
+  <div class="top-box">
+    <ion-avatar slot="start">
+      <img [src]="this.user.profilePic ? this.user.profilePic + '?' + sasToken : 'assets/blank_user.svg'">
+      <!-- <img src="{{ baseUri + user.fragment.id + '/profile_pic?' + sasToken }}" onerror="this.src='assets/blank_user.svg';"> -->
+    </ion-avatar>
+    <div class="text-cont">
+      <h6>{{ user.fragment.firstname }} {{ user.fragment.surname }}</h6>
+      <div class="role" *ngIf="user.fragment.specialty && user.fragment.grade">{{ user.fragment.specialty + ' ' + user.fragment.grade }}</div>
+      <div class="role" *ngIf="!user.fragment.specialty && user.fragment.profession">{{ user.fragment.profession }}</div>
+      <div class="location" *ngIf="!!user.profile.primary_hospital">
+        {{ user.profile.primary_hospital + (user.profile.primary_location ? ', ' + user.profile.primary_location : '')}}</div>
+    </div>
+  </div>
+  <hr>
+  <div class="middle-box">
+    <ion-list class="ion-no-padding section-list">
+      <ion-item class="section ion-text-capitalize" button (click)="onNewBleep()">
+        <ion-label color="medium">Create a Bleep</ion-label>
+        <ion-icon class="action-icon" name="disc-outline" slot="end"></ion-icon>
+      </ion-item>
+      <ion-item class="section ion-text-capitalize" button routerLink="/article-editor">
+        <ion-label color="medium">Write an Article</ion-label>
+        <ion-icon name="create-outline" slot="end"></ion-icon>
+      </ion-item>
+      <ion-item class="section ion-text-capitalize" button lines="none" [routerLink]="'/home/profile/' + user.fragment.userId">
+        <ion-label color="medium">My Profile</ion-label>
+        <ion-icon src="assets/avatar.svg" slot="end"></ion-icon>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-card>

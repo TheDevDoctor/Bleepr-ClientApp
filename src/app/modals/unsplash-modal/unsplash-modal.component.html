@@ -1,0 +1,25 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-searchbar placeholder="Search Unsplash" (keyup.enter)="searchPressed($event)"
+      (ionChange)="searchChanged($event)"></ion-searchbar>
+  </ion-toolbar>
+  <div *ngIf="imageResults.length > 0" class="pages">
+    {{ resultCount }} Results
+  </div>
+</ion-header>
+<ion-content fullscreen>
+  <div>
+    <div class="img-container">
+      <ion-card class="image-wrapper" *ngFor="let img of imageResults" (click)="imageSelected(img)">
+          <img class="image" [src]="img.urls.thumb">
+      </ion-card>
+    </div>
+  </div>
+
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="nextPage($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

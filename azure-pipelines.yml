@@ -1,0 +1,44 @@
+# Build the Ionic/Angular client app
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+# Trigger the pipeline on any commits to master
+trigger:
+  branches:
+    include:
+      - master
+  paths:
+    exclude:
+      - android/*
+      - ios/*
+      - resources/*
+      - azure-pipelines.yml
+      - azure-pipelines-android.yml
+      - azure-pipelines-ios.yml
+      - docs/*
+
+# Run on a Linux build machine
+pool:
+  vmImage: 'ubuntu-latest'
+
+# Set up variables for the pipeline and pull in settings from CoreInfrastructure variable group
+variables:
+- group: 'Bleepr-CoreInfrastructure'
+
+# Kick off the jobs to test, build and publish the Angular clientapp code
+jobs:
+  # Install packages and prod-build the Angular app
+  - job: build
+    displayName: Build Angular ClientApp
+    steps:
+      - script: |
+          sudo npm install -g @angular/cli
+          npm install
+          ng build --prod
+        displayName: npm install & Angular build
+      # Publish the Angular prod files as an artifact of the build  
+      - task: PublishBuildArtifacts@1
+        displayName: Publish artifact (Bleepr-ClientApp-Web)
+        inputs:
+          pathtoPublish: 'www' 
+          artifactName: 'Bleepr-ClientApp-Web'
+      

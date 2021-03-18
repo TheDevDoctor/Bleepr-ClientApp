@@ -1,0 +1,27 @@
+<ion-header>
+
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="closeModal()">
+        Close
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Edit About</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="update()">
+        <ion-icon name="checkmark-done-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-progress-bar *ngIf="updatingUser" type="indeterminate"></ion-progress-bar>
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="infoForm">
+    <ion-item class="custom-input align-left">
+      <ion-label position="floating">About Text</ion-label>
+      <ion-textarea auto-grow="true" formControlName="about"></ion-textarea>
+    </ion-item>
+  </form>
+</ion-content>

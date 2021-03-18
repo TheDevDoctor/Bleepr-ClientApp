@@ -1,0 +1,107 @@
+<ion-header class="main-header" translucent="true" [ngClass]="{'hidden': headerHidden}">
+  <app-site-header [page]="'feed'" #header (searchEntered)="onHeaderSearch($event)"></app-site-header>
+</ion-header>
+
+<ion-content fullscreen [scrollEvents]="smallScreen" (ionScroll)="onScroll($event)">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)" *ngIf="currentPlatform == 'mobile'">
+    <ion-refresher-content pullingText="Pull to refresh"></ion-refresher-content>
+  </ion-refresher>
+  <div class="desktop-width">
+    <ion-grid>
+      <ion-row>
+        <ion-col size-lg="3" class="ion-hide-lg-down">
+          <app-profile-card [user]="user"></app-profile-card>
+          <app-profile-completion></app-profile-completion>
+        </ion-col>
+        <ion-col size-lg="6" size-md="8" size-sm="12">
+          <ng-container *ngIf="currentPlatform == 'desktop'">
+            <app-new-bleep></app-new-bleep>
+            <div class="refresh-cont">
+              <hr>
+              <ion-button fill="clear" color="medium" (click)="doRefresh()" *ngIf="!isRefreshing">
+                <ion-icon slot="icon-only" name="refresh-circle"></ion-icon>
+              </ion-button>
+              <ion-spinner name="crescent" color="tertiary" *ngIf="isRefreshing"></ion-spinner>
+              <hr>
+            </div>
+          </ng-container>
+          <div>
+            <div *ngIf="bleeps && bleepLikes && bleepStats">
+              <div *ngIf="bleeps.length < 1" class="ion-text-center">
+                <div style="margin: 5rem;">No bleeps to show</div>
+              </div>
+
+              <app-feed-card *ngFor="let bleep of bleeps; trackBy: trackByFn" [userFragment]="user.fragment" [bleep]="bleep"
+                [stats]="bleepStats[bleep.id]" [setLikes]="bleepLikes[bleep.id]"></app-feed-card>
+
+            </div>
+            <div *ngIf="!bleeps || !bleepLikes || !bleepStats">
+              <ion-list>
+                <ion-list-header>
+                  <ion-label>
+                    <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
+                  </ion-label>
+                </ion-list-header>
+                <ion-item>
+                  <ion-avatar slot="start">
+                    <ion-skeleton-text animated></ion-skeleton-text>
+                  </ion-avatar>
+                  <ion-label>
+                    <h3>
+                      <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+                    </h3>
+                    <p>
+                      <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+                    </p>
+                    <p>
+                      <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+                    </p>
+                  </ion-label>
+                </ion-item>
+                <ion-item>
+                  <ion-thumbnail slot="start">
+                    <ion-skeleton-text animated></ion-skeleton-text>
+                  </ion-thumbnail>
+                  <ion-label>
+                    <h3>
+                      <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+                    </h3>
+                    <p>
+                      <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+                    </p>
+                    <p>
+                      <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+                    </p>
+                  </ion-label>
+                </ion-item>
+                <ion-item>
+                  <ion-skeleton-text animated style="width: 27px; height: 27px" slot="start"></ion-skeleton-text>
+                  <ion-label>
+                    <h3>
+                      <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+                    </h3>
+                    <p>
+                      <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+                    </p>
+                    <p>
+                      <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+                    </p>
+                  </ion-label>
+                </ion-item>
+              </ion-list>
+            </div>
+          </div>
+        </ion-col>
+        <ion-col size-lg="3" size-md="4" class="ion-hide-md-down">
+          <app-profile-card [user]="user" class="ion-hide-lg-up"></app-profile-card>
+          <app-profile-completion class="ion-hide-lg-up"></app-profile-completion>
+          <app-suggested-connections></app-suggested-connections>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)" [disabled]="!isInfiniteScroll">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

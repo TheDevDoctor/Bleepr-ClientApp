@@ -1,0 +1,59 @@
+ion-card {
+    margin: 10px 16px;
+    display: flex;
+}
+
+.highlight {
+
+    width: 6px;
+    border-radius: 3px;
+    margin: 6px;
+
+    &.cond {
+        background: #eb7cff;
+    }
+
+    &.surg {
+        background: #42bdff;
+    }
+}
+
+.title {
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.subtitle {
+    font-size: 14px;
+    padding: 2px 0;
+}
+
+.text-cont {
+    padding: 6px;
+    box-shadow: 5px 0 6px -1px #e6e6e68a;
+    z-index: 2;
+}
+
+.icon-cont {
+    width: 60px;
+    display: -webkit-box;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    &.cond {
+        background: purple;
+        background: linear-gradient(to right, #e984ff, #fc19ff);
+    }
+
+    &.surg {
+        background: aqua;
+        background: linear-gradient(to right, #84d5ff, #19b4ff);
+    }
+    
+
+    ion-icon {
+        color: white;
+        font-size: 28px;
+    }
+}

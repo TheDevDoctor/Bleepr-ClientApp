@@ -1,0 +1,28 @@
+<ion-card class="bleep-card">
+  <div class="bleep-card-cont">
+    <div class="start-bleep">
+      <ion-button expand="full" fill="clear" class="bleep-card-btn" (click)="newBleep()">
+        <ion-icon name="disc-outline" color="medium" slot="start"></ion-icon>
+        Send a Bleep
+      </ion-button>
+    </div>
+    <div class="start-photo">
+      <ion-button expand="full" fill="clear" class="bleep-card-btn square" (click)="newBleep()" color="medium">
+        <ion-icon slot="icon-only" name="camera-outline"></ion-icon>
+      </ion-button>
+    </div>
+    <div class="start-video">
+      <ion-button expand="full" fill="clear" class="bleep-card-btn square" (click)="newBleep()" color="medium">
+        <ion-icon slot="icon-only" name="videocam-outline"></ion-icon>
+      </ion-button>
+    </div>
+    <div class="start-file">
+      <ion-button expand="full" fill="clear" class="bleep-card-btn square" (click)="newBleep()" color="medium">
+        <ion-icon slot="icon-only" name="document-outline"></ion-icon>
+      </ion-button>
+    </div>
+  </div>
+  <div class="add-article-cont">
+    <a routerLink="/article-editor">Write a case, article, or share research</a> on Bleepr
+  </div>
+</ion-card>

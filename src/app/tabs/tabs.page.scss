@@ -1,0 +1,28 @@
+ion-tab-bar {
+    height: 63px;
+    background-color: white;
+    contain: none;
+}
+
+ion-tabs {
+    background: #f0f0f0;
+}
+
+.header-margin {
+    &.desktop {
+        margin-top: 64px;
+        height: calc(100vh - 64px);
+    }
+
+    &.mobile {
+        margin-top: 52px;
+        height: calc(100vh - 52px);
+    }
+    
+}
+
+.post-button {
+    background: #b70eb7;
+    padding: 9px 9px 12px 12px;
+    border-radius: 12px;
+}

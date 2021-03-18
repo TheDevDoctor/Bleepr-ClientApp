@@ -1,0 +1,124 @@
+<ion-header translucent="true" class="main-header">
+  <app-site-header [navBack]="true" [page]="'article'">
+    <ion-back-button [defaultHref]="'/home/feed'" icon="arrow-back-outline" text="" color="medium" class="ion-hide-sm-up"></ion-back-button>
+  </app-site-header>
+</ion-header>
+
+<ion-content fullscreen #scrollContainer>
+  <ng-container *ngIf="article">
+
+    <div>
+      <div class="header-cont" *ngIf="article.headerImage && article.headerImage.id">
+        <div class="header-img" [ngClass]="{'normal': article.headerImage.width == 'normal'}">
+          <img [src]="headerImage" class="header-image">
+        </div>
+      </div>
+    </div>
+    <div class="article-container">
+      <div class="article-text-cont">
+        <h1 class="article-title"> {{ article.title }} </h1>
+        <div class="published-cont">
+          <p class="date-pub">Published on {{ article.published | date }}</p>
+          <ion-button color="medium" size="small" (click)="editArticle()"
+            *ngIf="this.userId && this.userId === this.article.createdById">
+            Edit Article
+          </ion-button>
+        </div>
+        <hr>
+        <div>
+          <ion-row>
+            <ion-col size-md="8" size-sm="8" size-xs="12">
+              <app-author [id]="article.authors[0]"></app-author>
+            </ion-col>
+            <ion-col size-md="4" size-sm="4" size-xs="12" class="ion-hide-sm-down">
+              <div class="interaction-cont">
+                <ion-buttons class="interact-buttons">
+                  <div class="interact-button-cont">
+                    <ion-button class="footer-button" (click)="interactionPressed('like')" [disabled]="!userId">
+                      <ion-icon slot="icon-only" name="heart" *ngIf="liked"></ion-icon>
+                      <ion-icon slot="icon-only" name="heart-outline" *ngIf="!liked"></ion-icon>
+                    </ion-button>
+                    <ion-badge color="light">{{ bleepStats?.likes }}</ion-badge>
+
+                  </div>
+
+                  <div class="interact-button-cont">
+                    <ion-button class="footer-button" (click)="interactionPressed('comment')" [disabled]="!userId">
+                      <ion-icon slot="icon-only" name="chatbubble-ellipses-outline"></ion-icon>
+                    </ion-button>
+                    <ion-badge color="light">{{ bleepStats?.comments }}</ion-badge>
+
+                  </div>
+
+                  <div class="interact-button-cont">
+                    <ion-button class="footer-button" (click)="interactionPressed('share')" [disabled]="!userId">
+                      <ion-icon slot="icon-only" name="share-social-outline"></ion-icon>
+                    </ion-button>
+                    <ion-badge color="light">{{ bleepStats?.shares }}</ion-badge>
+                  </div>
+                </ion-buttons>
+              </div>
+            </ion-col>
+          </ion-row>
+        </div>
+        <div *ngIf="showAllAuthors">
+          <ng-container *ngFor="let auth of article.authors; let i = index">
+            <app-author *ngIf="i > 0" [id]="auth"></app-author>
+          </ng-container>
+        </div>
+        <div class="all-auth-btn-cont" *ngIf="article.authors.length > 1">
+          <ion-button fill="clear" size="small" class="all-auth-button" (click)="expandAuthors()">
+            {{ showAllAuthors ?  'Close' : 'View all' }} authors ({{ article.authors.length }}) <ion-icon slot="end"
+              name="{{ showAllAuthors ?  'chevron-up-outline' : 'chevron-down-outline' }}"></ion-icon>
+          </ion-button>
+        </div>
+        <div>
+          <quill-view [content]="article.content" format="object" [modules]="modules"></quill-view>
+        </div>
+
+        <div *ngIf="article.references.length > 0">
+          <h3>References</h3>
+          <div>
+            <div class="reference" *ngFor="let ref of article.references">
+              1.
+              <span class="authors">{{ createAuthorString(ref) }}</span>
+              <span class="title">{{ ref.title }}</span>
+              <span class="journal"> {{ ref.journal }}</span>
+              <span class="volume"> {{ ref.volume }}</span>
+              <span class="issue"> {{ ref.issue }}</span>
+              <span class="pages"> {{ ref.pages }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="comments-container" #commentContainer>
+        <h2>Comments</h2>
+        <app-comments (sendComment)="sendComment($event)" (updateComment)="updateComment($event)"
+          (deleteComment)="deleteComment($event)" (loadMore)="getComments()" [comments]="comments"
+          [loadingComments]="isLoadingComment" [hasAllComments]="commentsContToken === null"
+          (likeComment)="onLikeComment($event)"></app-comments>
+      </div>
+    </div>
+  </ng-container>
+
+
+  <ion-fab class="ion-hide-sm-up" vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button>
+      <ion-icon name="ellipsis-vertical-outline"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="top">
+      <ion-fab-button color="tertiary" attr.data-desc="{{ bleepStats?.comments }}"
+        (click)="interactionPressed('comment')">
+        <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button color="tertiary" attr.data-desc="{{ bleepStats?.shares }}" (click)="interactionPressed('share')">
+        <ion-icon name="share-social-outline"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button color="tertiary" attr.data-desc="{{ bleepStats?.likes }}" (click)="interactionPressed('like')">
+        <ion-icon name="heart" *ngIf="liked"></ion-icon>
+        <ion-icon name="heart-outline" *ngIf="!liked"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
+</ion-content>

@@ -1,0 +1,9 @@
+<div class="article-cont" (click)="goToArticle()" tappable>
+  <div class="img-cont">
+    <img [src]="image" *ngIf="image">
+  </div>
+  <div class="article-text-cont" *ngIf="articlePreview">
+    <div class="date-published">{{ articlePreview.published | date }}</div>
+    <h6>{{ articlePreview.title }}</h6>
+  </div>
+</div>

@@ -1,0 +1,265 @@
+<ion-header class="main-header" translucent="true" *ngIf="!headerHidden">
+  <app-site-header [page]="'feed'" #header (searchEntered)="onHeaderSearch($event)"></app-site-header>
+</ion-header>
+
+<ion-split-pane when="md" contentId="chat-pane">
+  <!-- Conversations pane ---------------------------------------------------------------------------------->
+  <ion-menu contentId="chat-pane" type="reveal" menuId="conversationsMenu">
+    <ion-header translucent>
+      <ion-toolbar>
+        <ion-title>Chats</ion-title>
+        <ion-buttons slot="end">
+          <ion-icon name="add-outline" slot="icon-only" color="primary" (click)="newConversationPopup()"></ion-icon>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content fullscreen>
+      <!--Search conversations and messages (removed for now as not working) -->
+      <!-- <ion-searchbar></ion-searchbar> -->
+
+      <!--List of recent conversations-->
+      <ion-list *ngIf="conversations">
+        <div tappable *ngFor="let conversation of conversations; let i = index">
+          <ion-item-sliding [disabled]="conversation.members.length <= 2">
+            <ion-item (click)="switchConversation(conversation.id)">
+              <ion-label>
+                <!--Display member(s) of conversation-->
+                <div class="frag-container">
+                  <ion-avatar *ngIf="sasToken">
+                    <!--TODO: blank_user fallback-->
+                    <img *ngIf="conversation.blobExists && conversation.memberFragments.length === 1"
+                      [src]="baseUri + 'profile-pictures/' + conversation.memberFragments[0].id + '?' + sasToken">
+                    <!--Show a group icon if more than one conversation member. TODO: add group icon/people's initials-->
+                    <img *ngIf="conversation.blobExists && conversation.memberFragments.length > 1" [src]="baseUri + 'conversation-' + conversation.id + '/media/images/group-image' + '?' + sasToken">
+
+                    <img *ngIf="!conversation.blobExists" src="assets/blank_user.svg">
+                  
+                  </ion-avatar>
+                  <div class="top-text-cont">
+                    <h6>
+                      <ng-container *ngIf="conversation.groupName">
+                        {{ conversation.groupName }}
+                      </ng-container>
+                      <ng-container *ngIf="!conversation.groupName">
+                        <ng-container *ngFor="let member of conversation.memberFragments; let i = index">
+                          {{ member.firstname }} {{ member.surname }}
+                          <ng-container *ngIf="i !== conversation.memberFragments.length - 1">, </ng-container>
+                        </ng-container>
+                      </ng-container>
+                    </h6>
+                    <div *ngIf="conversation.memberFragments.length === 1" class="role">
+                      {{ conversation.memberFragments[0].profession }}</div>
+                    <div *ngIf="conversation.memberFragments.length > 1" class="role">Group</div>
+                  </div>
+                </div>
+                <div class="conversation-summary">
+                  <p *ngIf="conversation.latestMessage">{{ returnSnippetText(conversation) }}</p>
+                  <p *ngIf="!conversation.latestMessage"><i>Draft</i></p>
+                </div>
+              </ion-label>
+              <ng-container *ngIf="conversation.latestMessage">
+                <div class="new-msg-indicator-cont"
+                  *ngIf="(!conversation.latestMessage.readBy || !conversation.latestMessage.readBy[user.userId]) && conversation.latestMessage.senderId !== user.userId">
+                  <div class="new-msg-indicator"></div>
+                </div>
+              </ng-container>
+            </ion-item>
+            <ion-item-options side="end">
+              <ion-item-option (click)="leaveConversation(conversation.id)">
+                Leave
+              </ion-item-option>
+            </ion-item-options>
+          </ion-item-sliding>
+        </div>
+      </ion-list>
+
+      <!--Ion Skeleton while conversations are loading-->
+      <ion-list *ngIf="!conversations">
+        <ion-item *ngFor="let i of [0,1,2,3,4,5,6,7,8,9]">
+          <ion-avatar slot="start">
+            <ion-skeleton-text animated></ion-skeleton-text>
+          </ion-avatar>
+          <ion-label>
+            <h3>
+              <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+            </h3>
+            <p>
+              <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+            </p>
+            <p>
+              <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+            </p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+      <!--End skeleton-->
+
+    </ion-content>
+  </ion-menu>
+
+  <!-- Chat pane ----------------------------------------------------------------------------------------------->
+  <ion-router-outlet id="chat-pane">
+    <ion-header class="chat-header" translucent #chatHeader>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <!--Display member(s) of conversation-->
+        <div *ngIf="selectedConversationId" class="frag-container">
+          <ion-avatar *ngIf="sasToken">
+            <!--TODO: blank_user fallback-->
+            <img *ngIf="currentConversation.blobExists && currentConversation.memberFragments.length === 1"
+              [src]="baseUri + 'profile-pictures/' + currentConversation.memberFragments[0].id + '?' + sasToken">
+            <!--Show a group icon if more than one conversation member.-->
+            <!--TODO: add group icon/people's initials-->
+            <img *ngIf="currentConversation.blobExists && currentConversation.memberFragments.length > 1" [src]="baseUri + 'conversation-' + currentConversation.id + '/media/images/group-image' + '?' + sasToken">
+
+            <img *ngIf="!currentConversation.blobExists" src="assets/blank_user.svg">
+          </ion-avatar>
+          <div class="top-text-cont">
+            <h6>
+              <ng-container *ngIf="selectedConversation.groupName">
+                {{ selectedConversation.groupName }}
+              </ng-container>
+              <ng-container *ngIf="!selectedConversation.groupName">
+                <ng-container *ngFor="let member of selectedConversation.memberFragments; let i = index">
+                  {{ member.firstname }} {{ member.surname }}
+                  <ng-container *ngIf="i !== selectedConversation.memberFragments.length - 1">, </ng-container>
+                </ng-container>
+              </ng-container>
+            </h6>
+            <div *ngIf="currentConversation.memberFragments.length === 1" class="role">
+              {{ currentConversation.memberFragments[0].profession }}</div>
+            <div *ngIf="currentConversation.memberFragments.length > 1" class="role">Group</div>
+          </div>
+        </div>
+      </ion-toolbar>
+    </ion-header>
+
+    <!--Message display area (scrollable)-->
+    <ion-content class="ion-padding" #messagesContent fullscreen>
+
+      <ion-infinite-scroll *ngIf="selectedConversationId" threshold="100px" (ionInfinite)="loadMoreMessages()"
+        position="top">
+        <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more messages...">
+        </ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+      <!--If a conversation is selected, display the fetched messages-->
+      <ng-container *ngIf="selectedConversationId">
+        <!--Show loading symbol if messages for selected conversation are loading-->
+        <ion-row *ngIf="!messages.has(selectedConversationId)"
+          class="ion-align-items-center ion-justify-content-center ion-text-center messages-loading">
+          <ion-spinner color="tertiary" name="crescent"></ion-spinner>
+        </ion-row>
+        <div *ngIf="messages.has(selectedConversationId)" class="message-cont">
+          <ion-list class="messages-list"
+            [ngStyle]="{ 'margin-top': this.chatHeaderMargin + 'px', 'margin-bottom': chatBottomMargin + 'px' }">
+
+            <!--Skeletons when loading messages-->
+            <!-- <ng-container *ngIf="showSkeletons">
+              <ng-container *ngFor="let item of [0,1]">
+                <li class="received" style="width: 80%">
+                  <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
+                  <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
+                </li>
+                <li class="sent" style="width: 50%">
+                  <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
+                </li>
+                <li class="received" style="width: 60%">
+                  <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
+                </li>
+                <li class="sent" style="width: 80%">
+                  <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
+                  <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
+                  <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+                </li>
+                <li class="sent" style="width: 50%">
+                  <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
+                </li>
+                <li class="received" style="width: 30%">
+                  <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
+                </li>
+              </ng-container>
+            </ng-container> -->
+
+            <ng-container *ngFor="let message of selectedConversationMessages; let i = index; trackBy: trackByFn">
+
+              <!--TODO: seems to be duplication of the class checking logic put in the page.ts-->
+              <li *ngIf="i === 0 || (message.timeSent - selectedConversationMessages[i - 1].timeSent) > 600000"
+                class="time-split">
+                <div>
+                  {{ message.timeSent | date: 'EEEE, MMMM d, h:mm a' }}
+                </div>
+              </li>
+
+              <!--TODO: seems to be duplication of the class checking logic put in the page.ts-->
+              <li class="name-indication"
+                *ngIf="(selectedConversation.groupName) && (!message.type || message.type === 'message') && (message.senderId !== user.id) && (i === 0 || message.senderId !== selectedConversationMessages[i - 1].senderId || (message.timeSent - selectedConversationMessages[i - 1].timeSent) > 600000 || (selectedConversationMessages[i - 1].type && selectedConversationMessages[i - 1].type !== 'message'))">
+                {{ selectedConversation.names[message.senderId] }}
+              </li>
+              <li *ngIf="!message.type || message.type === 'message'" #msg [ngClass]="returnMessageClasses(i)">
+                <div class="message-text">{{ message.text ? message.text : '' }}</div>
+              </li>
+
+              <li *ngIf="message.type && message.type === 'action'" class="action">
+                <div class="action-content">
+                  <span [ngSwitch]="message.action">
+                    <span *ngSwitchCase="'leave'">
+                      {{ this.selectedConversation.names[message.senderId] }} has left the conversation
+                      <ion-icon name="walk-outline"></ion-icon>
+                    </span>
+                    <span *ngSwitchCase="'create-group'">
+                      {{ this.selectedConversation.names[message.senderId] }} has created a group named
+                      {{ this.selectedConversation.groupName }}
+                      <ion-icon name="chatbubbles-outline"></ion-icon>
+                    </span>
+                  </span>
+                </div>
+              </li>
+            </ng-container>
+          </ion-list>
+        </div>
+      </ng-container>
+
+      <!--Show Start a Conversation display if no conversation is selected-->
+      <ion-grid *ngIf="!selectedConversationId" class="messages-no-conversation-selected">
+        <ion-row class="ion-align-items-end ion-justify-content-center">
+          <ion-col class="ion-text-center">
+            <div>
+              <ion-icon name="chatbubbles-outline" color="medium"></ion-icon>
+            </div>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-align-items-start ion-justify-content-center">
+          <ion-col class="ion-text-center">
+            <div>
+              <ion-text color="medium">Select a conversation</ion-text>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      <div class="chat-footer" slot="fixed" #newMessageContainer *ngIf="selectedConversationId">
+        <div class="new-comment-cont">
+          <div class="user-avatar-cont">
+            <ion-avatar class="chat-avatar">
+              <img *ngIf="sasToken" [src]="baseUri + 'profile-pictures/' + user.id + '?' + sasToken"
+                onerror="this.src='assets/blank_user.svg';">
+            </ion-avatar>
+          </div>
+          <div class="editable-cont">
+            <div class="ion-textarea-cont">
+              <ion-textarea placeholder="Type message..." auto-grow="true" mode="ios" rows="1"
+                (ionChange)="newMessageTextChanged($event)" [(ngModel)]="newMessageInput" debounce="0"></ion-textarea>
+            </div>
+            <div class="post-cont">
+              <ion-button size="small" fill="clear" [disabled]="!(!!newMessageInput)" (click)="sendMessage()"
+                (keyup.enter)="sendMessage()">
+                <ion-icon name="paper-plane-outline"></ion-icon>
+              </ion-button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ion-content>
+  </ion-router-outlet>
+</ion-split-pane>

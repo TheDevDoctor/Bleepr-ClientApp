@@ -1,0 +1,14 @@
+<ion-card>
+  <ion-card-header>
+    <ion-card-title>Suggested connections</ion-card-title>
+  </ion-card-header>
+
+  <ion-card-content *ngIf="connections">
+    <ion-list>
+
+      <ng-container *ngFor="let connect of connections; let i = index">
+        <app-suggested-contact [connection]="connect" *ngIf="i < 5"></app-suggested-contact>
+      </ng-container>
+    </ion-list>
+  </ion-card-content>
+</ion-card>

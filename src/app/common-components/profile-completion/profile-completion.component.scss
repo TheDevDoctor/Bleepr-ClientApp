@@ -1,0 +1,39 @@
+.overall-progress {
+    height: 10px;
+    border-radius: 3px;
+}
+
+.overall-text {
+    padding: 6px 0;
+}
+
+h6 {
+    font-weight: bold;
+}
+
+.section-list {
+    background: transparent;
+
+    .section {
+        --inner-padding-top: 6px;
+        --min-height: 0px;
+        --inner-padding-bottom: 6px;
+        --background:transparent;
+        font-size: 14px;
+    }
+}
+
+.no-bottom-padding {
+    padding-bottom: 0;
+    padding-top: 0;
+}
+
+ion-label {
+    margin: 0;
+}
+
+.state-chip {
+    padding: 0 8px;
+    font-size: 12px;
+    height: 20px;
+}

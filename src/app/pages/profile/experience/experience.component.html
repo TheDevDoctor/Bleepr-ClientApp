@@ -1,0 +1,115 @@
+<ion-card>
+  <ion-card-header>
+    <ion-card-title>Experience</ion-card-title>
+
+    <ion-buttons *ngIf="editable" class="option-buttons">
+      <ion-button fill="clear" color="medium" (click)="allowPositionEdit()" size="small">
+        <ion-icon *ngIf="!reposition" slot="icon-only" name="swap-vertical-outline"></ion-icon>
+        {{ reposition ? 'DONE' : '' }}
+      </ion-button>
+      <ion-button fill="clear" color="medium" (click)="allowEditButton()" class="ion-hide-sm-up" size="small">
+        <ion-icon *ngIf="!showEditButton" slot="icon-only" name="create-outline"></ion-icon>
+        {{ showEditButton ? 'DONE' : '' }}
+      </ion-button>
+      <ion-button fill="clear" color="medium" (click)="presentEditModal(null)" size="small">
+        <ion-icon slot="icon-only" name="add-circle-outline"></ion-icon>
+      </ion-button>
+
+    </ion-buttons>
+  </ion-card-header>
+
+  <ion-card-content>
+    <ion-reorder-group [disabled]="!reposition" (ionItemReorder)="doReorder($event)">
+      <ng-container *ngFor="let ex of experience; let i = index">
+        <ion-item class="experience-item" lines="{{ i < (experience.length - 1) ? 'inset' : 'none' }}">
+          <div class="ex-cont">
+            <!-- <hr *ngIf="i > 0"> -->
+            <ion-item lines="none">
+              <div class="experience-timeline ion-hide-sm-down">
+                <img *ngIf="icons[i]" src="{{ icons[i] + '?' + sasToken }}">
+                <ion-avatar slot="start" class="skeleton-avatar" *ngIf="!icons[i]">
+                  <ion-skeleton-text></ion-skeleton-text>
+                </ion-avatar>
+              </div>
+              <div class="experience-details">
+                <div class="institution">
+                  {{ ex.grade ? ex.role + ' | ' + ex.grade : ex.role }}
+                </div>
+                <div class="overall-date ion-hide-sm-up">
+                  {{ ex.start_date | date:'MMM yyyy' }} - {{ !ex.end_date ? 'Current' : ex.end_date | date:'MMM yyyy' }}
+                </div>
+                <div class="hospital">
+                  {{ ex.hospital }}
+                </div>
+              </div>
+            </ion-item>
+
+            <div class="rotations" *ngIf="ex.rotations.length > 0">
+              <ng-container *ngFor="let rot of ex.rotations">
+                <ion-item lines="none" *ngIf="rot.specialty">
+                  <div class="experience-timeline ion-hide-sm-down">
+                    <!-- <ion-icon name="pin-outline"></ion-icon> -->
+                    <ion-icon name="git-commit-outline" class="job-icon"></ion-icon>
+                  </div>
+                  <div class="experience-details">
+                    <div class="specialty">
+                      {{ rot.specialty }}
+                    </div>
+                    <div class="date">
+                      {{ rot.start | date:'MMM yyyy' }} - {{ !rot.end ? 'Current' : rot.end | date:'MMM yyyy' }}
+                    </div>
+                  </div>
+                </ion-item>
+              </ng-container>
+            </div>
+
+            <ion-item lines="none" class="description" *ngIf="ex.description">
+              <div class="experience-timeline ion-hide-sm-down desc">
+                <!-- <ion-icon name="pin-outline"></ion-icon> -->
+                <ion-label>Description: </ion-label>
+              </div>
+              <div class="experience-details desc-text">
+                {{ex.description}}
+              </div>
+            </ion-item>
+          </div>
+          <div class="overall-date absolute ion-hide-sm-down">
+            {{ ex.start_date | date:'MMM yyyy' }} - {{ !ex.end_date ? 'Current' : ex.end_date | date:'MMM yyyy' }}
+          </div>
+          <div slot="end" *ngIf="editable" class="ion-hide-sm-down">
+            <ion-button fill="clear" color="medium" (click)="presentEditModal(i)" *ngIf="!reposition">
+              <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+            </ion-button>
+          </div>
+          <div slot="end" *ngIf="editable" class="ion-hide-sm-up">
+            <ion-button fill="clear" color="medium" (click)="presentEditModal(i)" *ngIf="!reposition && showEditButton">
+              <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+            </ion-button>
+          </div>
+          <ion-reorder slot="end"></ion-reorder>
+        </ion-item>
+      </ng-container>
+
+      <ion-item *ngIf="!experience || experience.length === 0" lines="none">
+        <ion-avatar slot="start" class="skeleton-avatar">
+          <ion-skeleton-text style="margin-right: 20px;"></ion-skeleton-text>
+        </ion-avatar>
+        <ion-label>
+          <h3>
+            <ion-skeleton-text style="width: 50%;" class="skeleton-title"></ion-skeleton-text>
+          </h3>
+          <p>
+            <ion-skeleton-text style="width: 40%"></ion-skeleton-text>
+          </p>
+          <p>
+            <ion-skeleton-text style="width: 80%"></ion-skeleton-text>
+          </p>
+          <p>
+            <ion-skeleton-text style="width: 30%"></ion-skeleton-text>
+          </p>
+        </ion-label>
+      </ion-item>
+
+    </ion-reorder-group>
+  </ion-card-content>
+</ion-card>

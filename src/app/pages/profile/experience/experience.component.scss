@@ -1,0 +1,129 @@
+ion-card {
+    @media (max-width: 540px) {
+        margin: 24px 0;
+        border-radius: 0;
+    }
+}
+
+ion-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 16px;
+}
+
+ion-item {
+    --background: transparent;
+    --inner-padding-end: 0;
+
+    @media (max-width: 768px) {   
+        --padding-start: 0;
+    }
+}
+
+ion-card-title {
+    margin-top: 10px;
+    font-size: 24px;
+    font-weight: normal;
+}
+
+.experience-timeline {
+    width: 60px;
+    text-align: right;
+    margin: 0 36px 0 12px;
+
+    ion-icon {
+        transform: rotate(90deg);
+        font-size: 28px;
+    };
+}
+
+.ex-cont {
+    margin-bottom: 20px;
+}
+
+.overall-date {
+    margin-bottom: 4px;
+    font-size: 14px;
+
+    &.absolute {
+        position: absolute;
+        right: 22px;
+        top: 9px;
+    }
+}
+
+.experience-details {
+    @media (min-width: 768px) {
+        
+        margin-left: 36px;
+    }
+
+    .institution {
+        font-size: 18px;
+        font-weight: 800;
+    }
+
+    .date {
+        font-size: 13px;
+        color: #5d5d5d;
+    }
+
+    .specialty {
+        font-weight: 800;
+        text-transform: capitalize;
+        font-size: 14px;
+    }
+
+    .hospital {
+        color: #ba8863;
+        margin-bottom: 8px;
+        font-size: 14px;
+        text-transform: capitalize;
+    }
+}
+
+.experience-item {
+
+    margin-top: 18px;
+    hr {
+        margin: 22px;
+    }
+}
+
+.skeleton-title {
+    line-height: 16px;
+    margin-bottom: 10px;
+} 
+
+.skeleton-avatar {
+    margin-right: 30px;
+    margin-bottom: 15px;
+    height: 50px;
+    width: 50px;
+    --border-radius: 6px;
+}
+
+.option-buttons {
+    z-index: 1;
+    ion-button {
+        ion-icon {
+            font-size: 18px;
+        }
+    }
+}
+
+.description {
+    margin-top: 12px;
+    --padding-start: 0;
+
+    .desc {
+        width: 77px;
+        font-size: 14px;
+        height: 100%;
+    }
+    .desc-text {
+        font-size: 14px;
+        height: 100%;
+    }
+}

@@ -1,0 +1,8 @@
+<div>
+  <div *ngIf="author">
+    <ion-item lines="none">
+      <app-user-fragment [fragment]="author"></app-user-fragment>
+    </ion-item>
+  </div>
+  <div *ngIf="!author" style="min-height: 98px;"></div>
+</div>

@@ -1,0 +1,22 @@
+
+
+.option-dropdown {
+    background: #e4e4e4;
+    border: 1px solid #bfbfbf;
+    position: absolute;
+    border-radius: 4px;
+    overflow: auto;
+    left: 0;
+    top: 44px;
+    width: calc(100% - 20px);
+    z-index: 99;
+    margin: 10px;
+}
+
+.spinner-cont {
+    width: 100%;
+    min-height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

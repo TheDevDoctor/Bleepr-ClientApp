@@ -1,0 +1,51 @@
+<span [ngSwitch]="bleep.type">
+
+  <div *ngSwitchCase="'basic'">
+
+  </div>
+
+  <div *ngSwitchCase="'image'">
+    <div class="img-cont" (click)="onImagePreview()" tappable>
+      <ng-container *ngIf="sasToken">
+        <img tappable *ngIf="bleep.image[0].type === 'blob'"
+          [src]="baseImgUri + 'media/images/' + bleep.image[0].source + '?' + sasToken">
+        <img tappable *ngIf="bleep.image[0].type === 'unsplash'" [src]="bleep.image[0].source">
+      </ng-container>
+    </div>
+  </div>
+
+  <div *ngSwitchCase="'video'">
+    <ng-container *ngIf="sasToken">
+      <video *ngIf="bleep.video[0].type === 'blob'" preload="auto" crossorigin controls playsinline width="100%">
+        <source [src]="baseImgUri + 'media/videos/' + bleep.video[0].source + '?' + sasToken">
+      </video>
+      <div class="youtube-wrapper" *ngIf="bleep.video[0].type === 'youtube'">
+        <iframe width="560" height="315" [src]="youtubeSafeUri" frameborder="0"
+          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+    </ng-container>
+  </div>
+
+  <div *ngSwitchCase="'document'">
+    <app-file-placeholder [guid]="bleep.document[0].id" [userId]="bleep.createdById">
+    </app-file-placeholder>
+  </div>
+
+  <div *ngSwitchCase="'link'">
+    <ng-container *ngIf="linkPreview">
+
+      <a (click)="goToLink(linkPreview.url)" tappable>
+        <div>
+          <img [src]="linkPreview.image" class="link-image">
+        </div>
+        <ion-item>
+          <ion-label class="ion-text-wrap">
+            <h5>{{ linkPreview.title }}</h5>
+            <p>{{ linkPreview.description }}</p>
+          </ion-label>
+        </ion-item>
+      </a>
+    </ng-container>
+  </div>
+
+</span>

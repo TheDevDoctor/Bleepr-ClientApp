@@ -1,0 +1,127 @@
+<ion-header>
+
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="closeModal()">
+        Close
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Edit Experience</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="update()" [disabled]="!experienceForm.valid">
+        Save
+      </ion-button>
+    </ion-buttons>
+    <ion-progress-bar *ngIf="updatingUser" type="indeterminate"></ion-progress-bar>
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="experienceForm">
+    <div class="experience-cont">
+      <ion-item class="extra-margin custom-input" (ionFocus)="onFocus($event)" (ionBlur)="onBlur($event)" id="role">
+        <ion-label>Role</ion-label>
+        <ion-input formControlName="role" placeholder="e.g. Doctor"></ion-input>
+      </ion-item>
+      <ion-item (ionFocus)="onFocus($event)" (ionBlur)="onBlur($event)" class="extra-margin custom-input" id="grade"
+        *ngIf="this.searchOptions.grade">
+        <ion-label>Grade</ion-label>
+        <ion-input formControlName="grade" placeholder="e.g. Registrar"></ion-input>
+      </ion-item>
+      <ion-item (ionFocus)="onFocus($event)" (ionBlur)="onBlur($event)" class="extra-margin custom-input"
+        id="institution">
+        <ion-label>Institution</ion-label>
+        <ion-input formControlName="institution" placeholder="e.g. National Health Service"></ion-input>
+      </ion-item>
+      <ion-item (ionFocus)="onFocus($event)" (ionBlur)="onBlur($event)" class="extra-margin custom-input" id="hospital">
+        <ion-label>Hospital</ion-label>
+        <ion-input formControlName="hospital"></ion-input>
+      </ion-item>
+      <ion-item (ionFocus)="onFocus($event)" (ionBlur)="onBlur($event)" class="extra-margin custom-input" id="location">
+        <ion-label>Location</ion-label>
+        <ion-input formControlName="location"></ion-input>
+      </ion-item>
+
+      <ion-row>
+        <ion-col size="6" size-md="6" size-sm="12" size-xs="12">
+          <ion-item id="start" class="custom-input margin-bottom">
+            <ion-label>Start</ion-label>
+            <ion-input readonly [liIonic4Datepicker]="datePickerObj" formControlName="start_date"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size="6" size-md="6" size-sm="12" size-xs="12">
+          <ion-item id="end" class="custom-input">
+            <ion-label>End</ion-label>
+            <!-- <ion-input formControlName="end_date"></ion-input> -->
+            <ion-input readonly [liIonic4Datepicker]="datePickerObj" formControlName="end_date"></ion-input>
+          </ion-item>
+          <ion-item lines="none" class="current-role-checkbox" (ionChange)="isCurrentExperience($event)">
+            <ion-label>This is my current role</ion-label>
+            <ion-checkbox slot="end" [checked]="experienceForm.get('end_date').value === 'Current'"></ion-checkbox>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ng-container *ngIf="searchOptions.specialty">
+
+        <h6>Specialty</h6>
+        <div class="sub-heading">
+          <ion-text color="medium">If rotating between jobs you can add specialties using the button below.</ion-text>
+        </div>
+        <div formArrayName="rotations" *ngFor="let item of experienceFormRotations.controls; let i = index;">
+          <hr *ngIf="i > 0">
+          <ion-item class="extra-margin custom-input" [formGroupName]="i"
+            id="{{ 'specialty-' + i  }}" (ionFocus)="onFocus($event)" (ionBlur)="onBlur($event)">
+            <ion-label>Specialty</ion-label>
+            <ion-input formControlName="specialty"></ion-input>
+            <ion-button color="danger" (click)="removeRotation(i)">
+              <ion-icon name="close-outline" slot="icon-only"></ion-icon>
+            </ion-button>
+          </ion-item>
+          <ion-row>
+            <ion-col size="6" size-md="6" size-sm="12" size-xs="12">
+              <ion-item [formGroupName]="i" class="custom-input margin-bottom">
+                <ion-label>Start</ion-label>
+                <ion-input readonly [liIonic4Datepicker]="datePickerObj" formControlName="start"></ion-input>
+                <!-- <ion-input formControlName="start_date"></ion-input> -->
+              </ion-item>
+            </ion-col>
+            <ion-col size="6" size-md="6" size-sm="12" size-xs="12">
+              <ion-item [formGroupName]="i" class="custom-input">
+                <ion-label>End</ion-label>
+                <!-- <ion-input formControlName="end_date"></ion-input> -->
+                <ion-input readonly [liIonic4Datepicker]="datePickerObj" formControlName="end"></ion-input>
+              </ion-item>
+              <ion-item lines="none" class="current-role-checkbox" (ionChange)="isCurrentRotation($event, i)">
+                <ion-label>This is my current rotation</ion-label>
+                <ion-checkbox slot="end" [checked]="item['controls'].end.value === 'Current'"></ion-checkbox>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+        </div>
+        <div class="add_rotation_cont">
+          <ion-button (click)="addNewRotation()" fill="clear">
+            Add Rotation
+            <ion-icon name="add-outline"></ion-icon>
+          </ion-button>
+        </div>
+      </ng-container>
+      <h6>Additional Information</h6>
+      <ion-item class="extra-margin custom-input align-left" id="description">
+        <ion-label position="stacked">Description</ion-label>
+        <ion-textarea formControlName="description" auto-grow="true"></ion-textarea>
+      </ion-item>
+
+      <div class="delete-cont">
+        <ion-button expand="block" color="danger" fill="clear" (click)="delete()" *ngIf="dataIndex != null">Delete
+          Experience</ion-button>
+      </div>
+
+      <app-input-dropdown (itemSelected)="onDropdownItemSelected($event)" [dropdownWidth]="dropdownWidth"
+        [dropdownTop]="dropdownTop" [dropdownLeft]="dropdownLeft" [dropdownHeight]="dropdownHeight"
+        [items]="dropdownItems" *ngIf="!!focussedElement && dropdownItems.length > 0"></app-input-dropdown>
+
+    </div>
+  </form>
+</ion-content>

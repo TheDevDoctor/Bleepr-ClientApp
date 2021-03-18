@@ -1,0 +1,29 @@
+<ion-card tappable button>
+  <div class="user-cont" [routerLink]="'/home/profile/' + fragment.userId">
+    <ion-avatar class="profile-pic">
+      <!-- <img *ngIf="sasToken" [src]="profilePic"> -->
+      <div class="image-div" [ngStyle]="{'background-image': 'url(' + profilePic + ')'}"></div>
+    </ion-avatar>
+
+
+    <h6>{{ fragment.firstname }} {{ fragment.surname }}</h6>
+    <ion-label class="role">
+      {{ position }}
+    </ion-label>
+  </div>
+  <div class="button-cont">
+    <ion-button
+      *ngIf="!fragment.connectStatus || fragment.connectStatus === 'pending' || fragment.connectStatus === 'connection' || fragment.connectStatus === 'self'"
+      color="{{ !fragment.connectStatus ? 'secondary' : 'medium' }}" size="small"
+      [disabled]="fragment.connectStatus === 'pending' || fragment.connectStatus === 'connection' || fragment.connectStatus === 'self'"
+      (click)="onRequestConnection()">
+      {{ fragment.connectStatus === 'pending' ? 'Pending' : fragment.connectStatus === 'connection' ? 'Connected' : fragment.connectStatus === 'self' ? 'Not Applicable' : 'Connect' }}
+    </ion-button>
+    <ion-button *ngIf="fragment.connectStatus === 'requested'" color="success" size="small"
+      (click)="onAcceptConnection()">Accept
+    </ion-button>
+    <ion-button *ngIf="fragment.connectStatus === 'requested'" color="warning" size="small"
+      (click)="onDeclineConnection()">
+      Decline</ion-button>
+  </div>
+</ion-card>

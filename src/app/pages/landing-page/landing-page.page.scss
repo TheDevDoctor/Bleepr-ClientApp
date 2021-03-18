@@ -1,0 +1,152 @@
+ion-content {
+    --background:
+        /* backwards compatibility*/
+        -webkit-radial-gradient(50% 0, circle,
+            rgba(71, 0, 185, 0.9), rgba(71, 0, 185, 0.3) 70.71%),
+        -webkit-radial-gradient(6.7% 75%, circle,
+            rgba(109, 0, 119, 0.9), rgba(109, 0, 119, 0.3) 70.71%),
+        -webkit-radial-gradient(93.3% 75%, circle,
+            rgba(0, 174, 255, 0.9), rgba(0, 174, 255, 0.1) 70.71%);
+    --background:
+        radial-gradient(circle at 50% 0,
+            rgba(71, 0, 185, 0.9), rgba(71, 0, 185, 0.3) 70.71%),
+        radial-gradient(circle at 6.7% 75%,
+            rgba(109, 0, 119, 0.9), rgba(109, 0, 119, 0.3) 70.71%),
+        radial-gradient(circle at 93.3% 75%,
+            rgba(0, 174, 255, 0.9), rgba(0, 174, 255, 0.1) 70.71%);
+
+    ion-grid {
+        padding: 1rem;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    ion-grid,
+    #main {
+        height: 100%;
+    }
+
+    #footer {
+        margin-top: -50px;
+        text-align: center;
+        color: white;
+        opacity: 0.8;
+        text-transform: uppercase;
+
+        ion-col {
+            margin-left: 10px;
+            margin-right: 10px;
+
+            a {
+                color: inherit;
+                text-decoration: inherit;
+            }
+        }
+    }
+}
+
+
+// Content ----------------------------------------
+
+.content {
+    margin-left: auto;
+    margin-right: 1.5em;
+    color: white;
+    max-width: 30rem;
+
+    h2 {
+        text-transform: capitalize;
+    }
+
+    ion-button {
+        width: 12rem;
+    }
+
+    .app-stores {
+        margin-top: 2rem;
+
+        img {
+            margin-left: 0.2rem;
+            opacity: 0.8;
+        }
+    }
+}
+
+// Phone surround ---------------------------------
+.phone {
+    box-shadow: none;
+    border-radius: 0;
+    margin: 0 0 0 1.5em;
+    width: 15em;
+    box-shadow: none;
+
+    img {
+        border-radius: 0;
+        display: block;
+        position: relative;
+        width: 100%;
+    }
+
+    .inner {
+        position: relative;
+    }
+
+    .inner:before {
+        top: -1.375em;
+        margin-left: -1em;
+        width: 2em;
+        height: 0.25em;
+        border-radius: 0.5em;
+        background: rgba(255, 255, 255, 0.25);
+    }
+
+    .inner:after {
+        bottom: -2.75em;
+        margin-left: -1em;
+        width: 2em;
+        height: 2em;
+        border-radius: 100%;
+        border: solid 2px rgba(255, 255, 255, 0.25);
+    }
+}
+
+.phone .inner,
+.phone:before,
+.phone:after {
+    display: block;
+    border: solid 2px rgba(255, 255, 255, 0.25);
+}
+
+.phone .inner:before,
+.phone .inner:after {
+    content: '';
+    position: absolute;
+    left: 50%;
+}
+
+.phone:before,
+.phone:after {
+    content: '';
+}
+
+.phone:before {
+    height: 2.5em;
+    border-radius: 1em 1em 0 0;
+    border-bottom: 0;
+}
+
+.phone:after {
+    height: 3.5em;
+    border-radius: 0 0 1em 1em;
+    border-top: 0;
+}
+
+.image.phone .inner:before {
+    background: #e6e6e6;
+}
+
+.image.phone .inner:after {
+    border-color: #e6e6e6;
+}

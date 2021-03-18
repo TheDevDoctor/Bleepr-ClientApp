@@ -1,0 +1,148 @@
+<ion-header class="main-header" translucent [ngClass]="{'hidden': headerHidden}">
+  <app-site-header [page]="'profile'" (searchEntered)="onHeaderSearch($event)"></app-site-header>
+</ion-header>
+<ion-content *ngIf="fragment && profile" fullscreen [scrollEvents]="smallScreen" (ionScroll)="onScroll($event)">
+  <div [ngClass]="{'desktop-width': currentPlatform == 'desktop'}">
+    <div class="bg-image ion-hide-sm-up">
+      <div class="cover"></div>
+    </div>
+
+    <ion-grid>
+      <ion-row>
+        <ion-col size-lg="8" size-md="12">
+
+          <ion-card class="summary ion-hide-sm-up">
+            <div class="summary-container">
+              <div class="details-cont">
+                <ion-button *ngIf="editable" fill="clear" color="medium" class="edit-button small"
+                  (click)="presentInfoEditModal()">
+                  <ion-icon slot="icon-only" name="pencil-outline"></ion-icon>
+                </ion-button>
+                <ion-avatar class="profile-pic">
+                  <!-- <img *ngIf="sasToken" [src]="profilePic"> -->
+                  <div class="image-div" [ngStyle]="{'background-image': 'url(' + profilePic + ')'}"></div>
+                </ion-avatar>
+                <div>
+                  <ion-button *ngIf="editable" color="tertiary" size="small" (click)="getPhoto()">Change Picture
+                  </ion-button>
+                  <ion-button
+                    *ngIf="!editable && (!connectionStatus || connectionStatus === 'pending' || connectionStatus === 'connection')"
+                    [color]="!connectionStatus ? 'secondary' : 'medium' " size="small"
+                    [disabled]="connectionStatus === 'pending' || connectionStatus === 'connection'"
+                    (click)="onRequestConnection()">
+                    {{ connectionStatus === 'pending' ? 'Pending' : connectionStatus === 'connection' ? 'Connected' : 'Connect' }}
+                  </ion-button>
+                  <ion-button *ngIf="!editable && (connectionStatus === 'requested')" color="success" size="small"
+                    (click)="onAcceptConnection()">Accept
+                  </ion-button>
+                  <ion-button *ngIf="!editable && connectionStatus === 'requested'" color="warning" size="small"
+                    (click)="onDeclineConnection()">
+                    Decline</ion-button>
+                </div>
+                <h5>{{ fragment.firstname }} {{ fragment.surname }}</h5>
+                <div class="role">{{ position }}</div>
+                <div class="location" *ngIf="profile.primary_hospital && profile.primary_location">
+                  {{ profile.primary_hospital + ', ' + profile.primary_location }}</div>
+                <div class="location" *ngIf="!profile.primary_hospital && !profile.primary_location && editable"
+                  (click)="presentEditModal()"><a>Input primary hospital and location</a></div>
+              </div>
+            </div>
+          </ion-card>
+
+          <ion-card class="summary desktop ion-hide-sm-down">
+            <div class="bg-image desktop">
+              <div class="cover"></div>
+            </div>
+            <div class="summary-container desktop">
+              <div class="details-cont">
+                <ion-button *ngIf="editable" fill="clear" color="medium" class="edit-button"
+                  (click)="presentInfoEditModal()">
+                  <ion-icon slot="icon-only" name="pencil-outline"></ion-icon>
+                </ion-button>
+                <ion-avatar class="desktop profile-pic">
+                  <div class="image-div" [ngStyle]="{'background-image': 'url(' + profilePic + ')'}"></div>
+                  <div class="prof-pic-edit-cont" *ngIf="editable">
+                    <ion-button color="tertiary" size="small" (click)="getPhoto()">Edit</ion-button>
+                  </div>
+                </ion-avatar>
+                <div>
+                  <ion-button
+                    *ngIf="!editable && (!connectionStatus || connectionStatus === 'pending' || connectionStatus === 'connection')"
+                    [color]="!connectionStatus ? 'secondary' : 'medium' " size="small"
+                    [disabled]="connectionStatus === 'pending' || connectionStatus === 'connection'"
+                    (click)="onRequestConnection()">
+                    {{ connectionStatus === 'pending' ? 'Pending' : connectionStatus === 'connection' ? 'Connected' : 'Connect' }}
+                  </ion-button>
+                  <ion-button *ngIf="!editable && (connectionStatus === 'requested')" color="success" size="small"
+                    (click)="onAcceptConnection()">Accept
+                  </ion-button>
+                  <ion-button *ngIf="!editable && connectionStatus === 'requested'" color="warning" size="small"
+                    (click)="onDeclineConnection()">
+                    Decline</ion-button>
+                </div>
+                <h3>{{ fragment.firstname + ' ' + fragment.surname }}</h3>
+                <div class="role desktop">{{ position }}</div>
+                <div class="location" *ngIf="profile.primary_hospital && profile.primary_location">
+                  {{ profile.primary_hospital + ', ' + profile.primary_location }}</div>
+                <div class="location" *ngIf="!profile.primary_hospital && !profile.primary_location && editable"
+                  (click)="presentEditModal()"><a>Add your primary hospital</a></div>
+              </div>
+            </div>
+          </ion-card>
+
+          <div class="content-container">
+            <app-about [about]="profile.about" [editable]="editable"></app-about>
+          </div>
+
+          <div class="content-container">
+            <app-experience [experience]="profile.experience" (updated)="userUpdated($event)" [editable]="editable">
+            </app-experience>
+          </div>
+
+          <div class="content-container">
+            <app-education [education]="profile.education" (updated)="userUpdated($event)" [editable]="editable">
+            </app-education>
+          </div>
+
+          <div class="content-container">
+            <app-accreditation [accreditation]="profile.accreditation" (updated)="userUpdated($event)"
+              [editable]="editable">
+            </app-accreditation>
+          </div>
+
+          <div class="content-container">
+            <app-publication [publication]="profile.publication" (updated)="userUpdated($event)" [editable]="editable">
+            </app-publication>
+          </div>
+
+          <div class="content-container" *ngIf="bleeps">
+            <div>
+              <h4 class="section-title">Bleeps</h4>
+            </div>
+
+            <div class="bleeps-cont">
+
+              <ng-container *ngIf="bleeps && bleepStats && bleepLikes">
+                <ng-container *ngFor="let bleep of bleeps">
+                  <app-feed-card [userFragment]="this.user.fragment" [bleep]="bleep" [stats]="bleepStats[bleep.id]"
+                    [setLikes]="bleepLikes[bleep.id]"></app-feed-card>
+                </ng-container>
+              </ng-container>
+
+            </div>
+
+          </div>
+        </ion-col>
+        <ion-col size-lg="4" class="ion-hide-md-down">
+          <app-suggested-connections></app-suggested-connections>
+          <app-profile-completion></app-profile-completion>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)" [disabled]="!isInfiniteScroll">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

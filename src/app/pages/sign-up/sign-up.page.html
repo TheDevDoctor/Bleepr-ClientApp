@@ -1,0 +1,163 @@
+<ion-content fullscreen>
+  <ion-slides #slider [options]="sliderOptions">
+    <ion-slide>
+      <div class="slide-content">
+        <img src="assets/images/WelcomeScene.png" class="slider-img">
+        <div class="text-cont">
+          <h2>Hi Priya,</h2>
+          <h1>Welcome to Bleepr</h1>
+          <h4>The Healthcare Social Network</h4>
+          <p>To get started, let us know what you do!</p>
+        </div>
+        <ion-item class="custom-input align-left job">
+          <ion-label>Profession</ion-label>
+          <ion-select value="12" (ionChange)="elementSelected($event.detail.value, 'profession')">
+            <ion-select-option *ngFor="let prof of professions" [value]="prof"> {{ prof }} </ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <div class="button-cont">
+          <ion-button shape="round" fill="outline" size="small" style="font-size: 16px;" (click)="nextSlide()">Continue
+          </ion-button>
+          <br>
+        </div>
+      </div>
+    </ion-slide>
+
+    <ion-slide *ngFor="let slide of sliderContent">
+      <ng-container *ngTemplateOutlet="slide.template">
+
+      </ng-container>
+    </ion-slide>
+
+  </ion-slides>
+</ion-content>
+
+
+
+
+<ng-template #university>
+  <div class="slide-content">
+    <img src="assets/images/SceneStudentWhiteboard.png" class="slider-img">
+    <div class="text-cont">
+      <h1>Fantastic, we love medical students on Bleepr</h1>
+      <p>Bleepr will supercharge your medical career and make sure you get the best foundation placement.
+        <br><br>
+        What medical school do you go to?
+      </p>
+    </div>
+    <ion-item class="custom-input align-left job">
+      <ion-label>Med School</ion-label>
+      <ion-select value="12" (ionChange)="elementSelected($event.detail.value, 'medical school')">
+        <ion-select-option *ngFor="let prof of professions" [value]="prof"> {{ prof }} </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <div class="button-cont">
+      <ion-button shape="round" fill="outline" size="small" style="font-size: 16px;" (click)="nextSlide()">Continue
+      </ion-button>
+      <br>
+      <ion-button shape="round" fill="clear" color="medium" (click)="prevSlide()">Previous</ion-button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #medschoolyear>
+  <div class="slide-content">
+    <img src="assets/images/MedSchoolYear.png" class="slider-img">
+    <div class="text-cont">
+      <h1>Great!</h1>
+      <p>A lot of people from your university are already using Bleepr to progress their medical career.
+        <br><br>
+        What year are you currently in?
+      </p>
+    </div>
+    <ion-item class="custom-input align-left job">
+      <ion-label>Year</ion-label>
+      <ion-select value="12" (ionChange)="elementSelected($event.detail.value, 'current year')">
+        <ion-select-option *ngFor="let prof of professions" [value]="prof"> {{ prof }} </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <div class="button-cont">
+      <ion-button shape="round" fill="outline" size="small" style="font-size: 16px;" (click)="nextSlide()">Continue
+      </ion-button>
+      <br>
+      <ion-button shape="round" fill="clear" color="medium" (click)="prevSlide()">Previous</ion-button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #careergoal>
+  <div class="slide-content">
+    <img src="assets/images/CareerGoal.png" class="slider-img">
+    <div class="text-cont">
+      <h1>Help us to help you!</h1>
+      <p>What do you want to do in medicine? Don't worry if you don't know yet, you can select multiple options from the list.
+      </p>
+    </div>
+    <ion-item class="custom-input align-left job">
+      <ion-label>Career</ion-label>
+      <ion-select value="12" multiple="true" >
+        <ion-select-option *ngFor="let prof of professions" [value]="prof"> {{ prof }} </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <div class="button-cont">
+      <ion-button shape="round" fill="outline" size="small" style="font-size: 16px;" (click)="nextSlide()">Start Connecting
+      </ion-button>
+      <br>
+      <ion-button shape="round" fill="clear" color="medium" (click)="prevSlide()">Previous</ion-button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #grade>
+  <div class="slide-content">
+    <img src="assets/images/MedSchoolYear.png" class="slider-img">
+    <div class="text-cont">
+      <h1>Fantastic, we love doctors on Bleepr!</h1>
+      <p>We just need to know a little bit more about you so we can help build your network.
+        <br><br>
+        What grade are you currently?
+      </p>
+    </div>
+    <ion-item class="custom-input align-left job">
+      <ion-label>Grade</ion-label>
+      <ion-select value="12" (ionChange)="elementSelected($event.detail.value, 'doctor grade')">
+        <ion-select-option *ngFor="let prof of professions" [value]="prof"> {{ prof }} </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <div class="button-cont">
+      <ion-button shape="round" fill="outline" size="small" style="font-size: 16px;" (click)="nextSlide()">Continue
+      </ion-button>
+      <br>
+      <ion-button shape="round" fill="clear" color="medium" (click)="prevSlide()">Previous</ion-button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #specialty>
+  <div class="slide-content">
+    <img src="assets/images/Specialty.png" class="slider-img">
+    <div class="text-cont">
+      <h1>Great!</h1>
+      <p>What is your current specialty?
+      </p>
+    </div>
+    <ion-item class="custom-input align-left job">
+      <ion-label>Specialty</ion-label>
+      <ion-select value="12" (ionChange)="elementSelected($event.detail.value, 'current specialty')">
+        <ion-select-option *ngFor="let prof of professions" [value]="prof"> {{ prof }} </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <div class="button-cont">
+      <ion-button shape="round" fill="outline" size="small" style="font-size: 16px;" (click)="nextSlide()">Continue
+      </ion-button>
+      <br>
+      <ion-button shape="round" fill="clear" color="medium" (click)="prevSlide()">Previous</ion-button>
+    </div>
+  </div>
+</ng-template>

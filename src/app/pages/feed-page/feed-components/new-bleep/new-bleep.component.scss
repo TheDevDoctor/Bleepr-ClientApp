@@ -1,0 +1,49 @@
+.bleep-card-cont {
+    display: flex;
+    width: 100%;
+    border-bottom: 1px solid #8080805e;
+
+    .start-bleep {
+        flex: auto;
+    }
+
+    .start-photo {
+        flex: none;
+    }
+
+    .start-video {
+        flex: none;
+    }
+
+    .start-file {
+        flex: none;
+    }
+}
+
+.bleep-card-btn {
+    margin: 0;
+    height: 60px;
+
+    &.square {
+        width: 60px;
+        border-left: 1px solid #8080805e;
+    }
+}
+
+.bleep-card {
+    margin: 16px 0;
+    border: 1px solid #8080805e;
+}
+
+.add-article-cont {
+    padding: 8px 16px;
+    background: #00d9ff1c;
+
+    a {
+        text-decoration: none;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+}

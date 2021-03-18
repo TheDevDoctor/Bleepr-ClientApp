@@ -1,0 +1,45 @@
+ion-avatar {
+    max-height: 40px;
+    min-height: 40px;
+    max-width: 40px;
+    min-width: 40px;
+    margin-right: 12px;
+    outline: none;
+    overflow: hidden;
+}
+
+.image-div {
+    min-height: 40px;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.name {
+    font-weight: bold;
+}
+
+.content-type {
+    font-weight: bold;
+}
+
+.notification-item {
+    --inner-padding-bottom: 4px;
+    --inner-padding-top: 4px;
+}
+
+.time-cont {
+    display: flex;
+    align-items: center;
+
+    ion-icon {
+        margin-right: 6px;
+    }
+}
+
+.notification-text {
+    font-size: 14px;
+}
+
+.not-seen {
+    --background: #774eef1c;
+}

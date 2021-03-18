@@ -1,0 +1,110 @@
+<div>
+  <div class="new-comment-cont">
+    <div class="user-avatar-cont">
+      <ion-avatar>
+        <div class="image-div" [ngStyle]="{'background-image': 'url(' + profilePic + ')'}"></div>
+      </ion-avatar>
+    </div>
+    <div class="editable-cont">
+      <div class="ion-textarea-cont">
+        <ion-progress-bar *ngIf="isSendingComment" type="indeterminate"></ion-progress-bar>
+        <ion-textarea [placeholder]="this.user ? 'Add comment...' : 'Log in or sign up to comment'" auto-grow="true"
+          mode="ios" rows="1" [(ngModel)]="newCommentInput" debounce="500" (keyup.enter)="postComment()"
+          [disabled]="!user"></ion-textarea>
+      </div>
+      <div class="post-cont">
+        <ion-button size="small" fill="clear" [disabled]="!(!!newCommentInput)" (click)="postComment()" *ngIf="user">
+          <ion-icon name="paper-plane-outline"></ion-icon>
+        </ion-button>
+
+        <ng-container *ngIf="!user">
+          <ion-button class="auth-button" fill="solid" color="success" (click)="logIn()" size="small">
+            Log in
+          </ion-button>
+          <ion-button class="auth-button" color="secondary" (click)="signUp()" size="small">
+            Sign up
+          </ion-button>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+  <div class="get-more-cont" *ngIf="!hasAllComments && !loadingComments">
+    <a (click)="loadMoreComments()">Load more comments...</a>
+  </div>
+
+  <ion-list class="ion-no-padding">
+    <div *ngIf="loadingComments">
+      <ion-item>
+        <ion-avatar slot="start">
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-avatar>
+        <ion-label>
+          <h3>
+            <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+          </h3>
+          <p>
+            <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+          </p>
+          <p>
+            <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+          </p>
+        </ion-label>
+      </ion-item>
+    </div>
+
+    <div *ngFor="let comment of comments; let i = index; trackBy: trackByFn" class="comment-cont">
+
+      <div class="avatar-cont">
+        <ion-avatar [routerLink]="'/home/profile/' + comment.createdById" tappable>
+          <div class="image-div"
+            [ngStyle]="{'background-image': 'url(' + comment.meta.profilePic + '?' + sasToken + ')'}"></div>
+        </ion-avatar>
+      </div>
+
+      <div class="text-cont">
+        <div class="speech-cont">
+          <div class="speech-cont-header">
+            <div class="details">
+              <div class="name"><a
+                  [routerLink]="'/home/profile/' + comment.createdById">{{ comment.meta.creatorName }}</a></div>
+              <div class="job">{{ comment.meta.creatorPosition }}</div>
+            </div>
+            <div class="edit-cont">
+              <div timeago [date]="comment.timestamp" class="time-ago-text"></div>
+              <span *ngIf="comment.edit" class="edited-text"> Edited </span>
+              <ion-button *ngIf="user && user.fragment.userId === comment.createdById" class="options-button"
+                fill="clear" color="medium" (click)="presentPopover($event, i)">
+                <ion-icon slot="icon-only" name="ellipsis-vertical-outline"></ion-icon>
+              </ion-button>
+            </div>
+          </div>
+          <div class="comment-text" *ngIf="!comment.meta.isEditing">
+            {{ comment.text }}
+          </div>
+          <div *ngIf="comment.meta.isEditing">
+            <ion-item class="comment-text-area">
+              <ion-textarea [(ngModel)]="comment.meta.editText"></ion-textarea>
+            </ion-item>
+            <div class="edit-comment-buttons">
+              <ion-button size="small" (click)="updateBleep(i)">Update</ion-button>
+              <ion-button size="small" color="warning" (click)="cancelEditing(i)">Cancel</ion-button>
+            </div>
+          </div>
+        </div>
+        <div class="comment-actions">
+          <div class="action-cont">
+            <ion-button class="comment-like-button" fill="clear" (click)="onLikeComment(comment)">
+              <ion-icon slot="icon-only" name="heart" *ngIf="user && comment.meta.isLiked"></ion-icon>
+              <ion-icon slot="icon-only" name="heart-outline" *ngIf="user && !comment.meta.isLiked"></ion-icon>
+            </ion-button>
+            <span
+              *ngIf="comment.meta.stats && comment.meta.stats.likes > 0">{{ ' ' + comment.meta.stats.likes + (comment.meta.stats.likes > 1 ? ' Likes' : ' Like') }}</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </ion-list>
+
+</div>

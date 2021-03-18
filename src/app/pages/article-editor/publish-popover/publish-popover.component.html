@@ -1,0 +1,47 @@
+<div>
+
+  <div class="tagging-container">
+    <div>
+      <ion-item class="extra-margin custom-input align-left">
+        <ion-label>Tags</ion-label>
+        <ion-input [(ngModel)]="tagInput"></ion-input>
+        <ion-button class="search-button" color="tertiary" (click)="addTag()">Add</ion-button>
+      </ion-item>
+    </div>
+    <div class="tag-desc">Tags will help users find your articles. You can add a maximum of 5 tags.</div>
+    <div>
+      <div class="tag-cont">
+        <ion-chip outline color="primary" *ngFor="let tag of tags; let i = index">
+          <ion-icon name="pricetag-outline"></ion-icon>
+          <ion-label>{{ tag }}</ion-label>
+          <ion-icon name="close-circle" (click)="removeTag(i)"></ion-icon>
+        </ion-chip>
+      </div>
+    </div>
+    <hr>
+    <div *ngIf="displayImage" class="image-container">
+      <p class="feed-image-text">This is the image that will be displayed in the feed with your image</p>
+      <img [src]="displayImage">
+      <ion-button size="small" color="medium" class="change-image" (click)="onChangePicture()">Change Image</ion-button>
+    </div>
+    <div *ngIf="!displayImage">
+      <p class="feed-image-text red">You need to select an image that will be displayed with your article in the feed.</p>
+      <ion-button expand="block" fill="outline" color="medium" class="feed-image-button" (click)="onChangePicture()">
+        <ion-icon name="add-circle-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </div>
+  </div>
+
+  <ion-list class="ion-no-padding">
+    <ion-item lines="none">
+      <ion-label class="ion-text-wrap">
+        <h4>Submit for Review (Coming soon)</h4>
+        <p>Your article will be submitted to a journal for submission. </p>
+      </ion-label>
+      <ion-toggle [(ngModel)]="review" [disabled]="true"></ion-toggle>
+    </ion-item>
+  </ion-list>
+  <ion-button expand="full" class="submit-button" (click)="onPublish()" [disabled]="!feedImage">
+    Publish
+  </ion-button>
+</div>

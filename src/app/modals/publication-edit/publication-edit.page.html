@@ -1,0 +1,96 @@
+<ion-header>
+
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="closeModal()">
+        Close
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Edit Publication</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="update()" [disabled]="!publicationForm.valid">
+        Save
+      </ion-button>
+    </ion-buttons>
+    <ion-progress-bar *ngIf="updatingUser" type="indeterminate"></ion-progress-bar>
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="publicationForm">
+    <div class="publication-cont">
+      <div class="sub-heading">
+        <ion-text color="medium">You can search your articles DOI to autofill the form.</ion-text>
+      </div>
+      <ion-item class="extra-margin custom-input" id="doi">
+        <ion-label>DOI</ion-label>
+        <ion-input formControlName="doi"></ion-input>
+        <ion-button class="search-button" (click)="searchDOI()">Search</ion-button>
+      </ion-item>
+      <hr>
+      <ion-item class="extra-margin custom-input" id="title">
+        <ion-label>Title</ion-label>
+        <ion-input formControlName="title"></ion-input>
+      </ion-item>
+      <ion-item class="extra-margin custom-input" id="publisher">
+        <ion-label>Publisher</ion-label>
+        <ion-input formControlName="publisher"></ion-input>
+      </ion-item>
+
+      <ion-item class="extra-margin custom-input align-left" id="published_date">
+        <ion-label>Published Date</ion-label>
+        <ion-datetime placeholder="start" displayFormat="MMM YYYY" formControlName="published_date"></ion-datetime>
+      </ion-item>
+
+      <h6>Authors</h6>
+      <div class="sub-heading">
+        <ion-text color="medium">Please enter authors in the order they appear on the publication, 1st author at the
+          top.</ion-text>
+      </div>
+      <div formArrayName="authors" *ngFor="let auth of publicationFormAuthors.controls; let i = index;">
+        <hr *ngIf="i > 0">
+        <ion-row [formGroupName]="i">
+          <ion-col size="5" size-md="5" size-sm="12" size-xs="12">
+            <ion-item class="custom-input margin-bottom">
+              <ion-label>Given</ion-label>
+              <ion-input formControlName="given"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col size="6" size-md="6" size-sm="12" size-xs="12">
+            <ion-item class="custom-input margin-bottom">
+              <ion-label>Family</ion-label>
+              <ion-input formControlName="family"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col size-lg="1" size-md="1" size-sm="12" size-xs="12">
+            <ion-button color="danger" (click)="removeAuthor(i)" class="remove-button">
+              <ion-icon name="close-outline" slot="icon-only"></ion-icon>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </div>
+      <div class="add_rotation_cont">
+        <ion-button (click)="addNewAuthor()" fill="clear">
+          Add Author
+          <ion-icon name="add-outline" slot="start"></ion-icon>
+        </ion-button>
+      </div>
+
+      <h6>Additional Information</h6>
+      <ion-item class="extra-margin custom-input" id="url">
+        <ion-label>URL</ion-label>
+        <ion-input formControlName="url"></ion-input>
+      </ion-item>
+      <ion-item class="extra-margin custom-input align-left" id="description">
+        <ion-label position="stacked">Description</ion-label>
+        <ion-textarea formControlName="description" auto-grow="true"></ion-textarea>
+      </ion-item>
+
+      <div class="delete-cont">
+        <ion-button expand="block" color="danger" fill="clear" (click)="delete()" *ngIf="dataIndex != null">Delete
+          Accreditation</ion-button>
+      </div>
+    </div>
+  </form>
+</ion-content>

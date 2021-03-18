@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar [ngClass]="{'popover-toolbar': source === 'popover'}">
+    <ion-buttons slot="start" *ngIf="source === 'modal'">
+      <ion-button (click)="onCloseModal()">
+        Close
+      </ion-button>
+    </ion-buttons>
+
+    <ion-title slot="primary">Connection Requests</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div class="req-cont" [ngClass]="{'no-req-cont': requests.length === 0}">
+    <ng-container *ngIf="requests">
+      <ion-list *ngIf="requests.length > 0">
+        <app-connect-request *ngFor="let connect of requests" [id]="connect"
+          (response)="onConnectRequestResponse($event, connect)"></app-connect-request>
+      </ion-list>
+      <div *ngIf="requests.length == 0" class="no-req-text">
+        You don't have any connection requests.
+      </div>
+    </ng-container>
+    <div *ngIf="!requests">
+      <p>Loading your requests</p>
+      <ion-spinner name="crescent" color="tertiary"></ion-spinner>
+    </div>
+  </div>
+  <ion-list class="suggested-contacts">
+    <ion-list-header>
+      <ion-label>Suggested Connections</ion-label>
+    </ion-list-header>
+    <ng-container *ngFor="let connect of connections; let i = index">
+      <app-suggested-contact [connection]="connect" *ngIf="i < 5"></app-suggested-contact>
+    </ng-container>
+  </ion-list>
+</ion-content>

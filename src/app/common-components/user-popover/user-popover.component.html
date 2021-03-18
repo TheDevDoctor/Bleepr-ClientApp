@@ -1,0 +1,45 @@
+<div class="top-box">
+  <ion-avatar slot="start">
+    <div class="image-div" [ngStyle]="{'background-image': 'url(' + profilePic + ')'}"></div>
+  </ion-avatar>
+  <div class="text-cont">
+    <h6>{{ fragment.firstname }} {{ fragment.surname }}</h6>
+    <div class="role">{{ position }}</div>
+    <div class="location">{{ hospital }}</div>
+  </div>
+</div>
+<div>
+  <ion-button expand="full" type="submit" fill="clear" class="profile" [routerLink]="'/home/profile/' + fragment.id" (click)="dismissPopover()">
+    View Profile
+  </ion-button>
+</div>
+
+
+<div class="item-container">
+  <div class="header">
+    Articles
+  </div>
+  <ion-button expand="full" type="submit" fill="clear" color="dark" (click)="presentArticlesModal('published')">
+    <span class="ion-text-left left-abs">Published</span>
+  </ion-button>
+  <ion-button expand="full" type="submit" fill="clear" color="dark" (click)="presentArticlesModal('review')">
+    <span class="ion-text-left left-abs">In Review</span>
+  </ion-button>
+  <ion-button expand="full" type="submit" fill="clear" color="dark" (click)="presentArticlesModal('draft')">
+    <span class="ion-text-left left-abs">Drafts</span>
+  </ion-button>
+</div>
+<div class="item-container">
+  <div class="header">
+    Account
+  </div>
+  <ion-button expand="full" type="submit" fill="clear" color="dark" (click)="openSettings()">
+    <span class="ion-text-left left-abs">Settings & Privacy</span>
+  </ion-button>
+  <ion-button expand="full" type="submit" fill="clear" color="dark">
+    <span class="ion-text-left left-abs">Help</span>
+  </ion-button>
+  <ion-button expand="full" type="submit" fill="clear" color="dark" (click)="logout()">
+    <span class="ion-text-left left-abs">Logout</span>
+  </ion-button>
+</div>

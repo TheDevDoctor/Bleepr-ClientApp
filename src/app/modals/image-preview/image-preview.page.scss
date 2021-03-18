@@ -1,0 +1,38 @@
+img {
+    max-height: 100%;
+}
+
+.image-container {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    justify-content: space-around;
+}
+
+ion-content {
+    --background: transparent;
+}
+
+.cancel-button {
+    position: absolute;
+    right: 0;
+    top: env(safe-area-inset-top);
+    margin: 16px;
+    z-index: 99;
+
+    &.desktop {
+        top: 0;
+        --padding-start: 18px;
+        --padding-end: 18px;
+        --padding-top: 2px;
+        --padding-bottom: 2px;
+    }
+}
+
+ion-slides {
+    height: 100%;
+}
+
+.image {
+    z-index: 99;
+}

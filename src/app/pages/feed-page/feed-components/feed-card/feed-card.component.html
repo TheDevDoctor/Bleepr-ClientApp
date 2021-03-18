@@ -1,0 +1,14 @@
+<ion-card inViewport (inViewportAction)="onIntersection($event)">
+
+  <app-feed-card-header [bleep]="bleep" [editable]="bleep.createdById === userFragment.userId"></app-feed-card-header>
+
+  <p class="body-text" appHashtagging [bleep]="bleep"></p>
+  <app-bleep-types *ngIf="bleep.type != 'share' && bleep.type != 'article'" [bleep]="bleep"></app-bleep-types>
+
+  <app-share-card *ngIf="bleep.type == 'share'" [bleep]="bleep.shared" [userFragment]="userFragment"></app-share-card>
+  <app-article-card *ngIf="bleep.type == 'article'" [articleId]="bleep.articleId"></app-article-card>
+  
+  <app-feed-card-footer (interaction)="interactionPressed($event)" [bleepStats]="stats" [liked]="liked" [showComments]="showComments"></app-feed-card-footer>
+
+  <app-comments *ngIf="showComments" [isSendingComment]="sendingComment" (sendComment)="sendComment($event)" (updateComment)="updateComment($event)" (deleteComment)="deleteComment($event)" (likeComment)="onLikeComment($event)" (loadMore)="getComments()" [comments]="comments" [loadingComments]="isLoadingComment" [hasAllComments]="commentsContToken === null"></app-comments>
+</ion-card>

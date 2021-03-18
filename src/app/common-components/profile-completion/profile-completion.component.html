@@ -1,0 +1,20 @@
+<ion-card>
+  <ion-card-header>
+    Profile Completion
+  </ion-card-header>
+  <ion-card-content class="ion-no-padding">
+    <div class="ion-padding no-bottom-padding">
+      <ion-progress-bar color="secondary" [value]="completion" class="overall-progress"></ion-progress-bar>
+      <div class="overall-text">Your profile is {{ completion * 100 }}% complete.</div>
+      <hr>
+      <!-- <h6>Sections</h6> -->
+    </div>
+    <ion-list class="ion-no-padding section-list">
+      <ion-item class="section ion-text-capitalize" button *ngFor="let section of sectionHeaders" (click)="onSectionSelect(section)">
+        <ion-label>{{ section }}</ion-label>
+        <ion-chip class="state-chip" *ngIf="section === 'about'" color="{{ sections.about.completion ? 'success' : 'danger' }}">{{ sections.about.completion ? 'Done' : 'Incomplete' }}</ion-chip>
+        <ion-chip class="state-chip" *ngIf="section !== 'about'" color="{{ sections[section].completion ? 'success' : 'danger' }}">{{ sections[section].completion ? sections[section].completion + ' Added' : 'Incomplete' }}</ion-chip>
+      </ion-item>
+    </ion-list>
+  </ion-card-content>
+</ion-card>

@@ -1,0 +1,53 @@
+ion-card {
+    margin: 12px 22px 22px;
+}
+
+.profile-pic {
+    overflow: hidden;
+
+    min-height: 60px;
+    min-width: 60px;
+
+    // @media (max-width: 768px) {
+    //     min-height: 90px;
+    //     min-width: 90px;
+    // }
+
+    .image-div {
+        min-height: 100%;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+}
+
+.user-cont {
+    display: flex;
+    align-items: center;
+    padding: 12px 12px 0;
+    flex-direction: column;
+}
+
+.button-cont {
+    padding-bottom: 12px;
+}
+
+h6 {
+    margin-bottom: 2px;
+    margin-top: 12px;
+}
+
+h3 {
+    margin-bottom: 2px;
+    margin-top: 12px;
+}
+
+.role {
+    margin-bottom: 4px;
+    font-size: 12px;
+    padding: 0 22px;
+    color: #01bbe6;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 100%;
+}

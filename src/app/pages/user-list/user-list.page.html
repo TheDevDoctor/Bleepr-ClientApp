@@ -1,0 +1,100 @@
+<ion-header translucent="true" mode="ios" class="list-header" [ngClass]="{'search-hidden': searchHidden && (selected.length >= selectMinimum && selected.length <= selectMaximum)}">
+  <ion-toolbar mode="ios" class="segment-toolbar">
+    <ion-buttons slot="start">
+      <ion-button (click)="dismissModal(false)">
+        {{ selected.length > 0 ? 'Cancel' : 'Back' }}
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="ion-text-capitalize">
+      <ion-segment value="connections" mode="ios" (ionChange)="onChangeSearchType($event)" *ngIf="searchable === 'all'">
+        <ion-segment-button value="connections">
+          <ion-label>Connections</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="bleepers">
+          <ion-label>All Bleepers</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+
+      {{ searchable !== 'all' ? searchable : '' }}
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismissModal(true)" [disabled]="selected.length < selectMinimum || selected.length > selectMaximum">
+        Select
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar class="search-container">
+    <ion-searchbar mode="ios" (ionChange)="onSearchTextChange($event.detail.value)" debounce="500"></ion-searchbar>
+  </ion-toolbar>
+  <ion-toolbar *ngIf="selected.length > 0" class="selected-toolbar">
+    <a (click)="displaySelected()">{{ selected.length + ' bleepers selected' }}
+      <ion-icon class="chevron" name="chevron-down-outline" *ngIf="!showSelected"></ion-icon>
+      <ion-icon class="chevron" name="chevron-up-outline" *ngIf="showSelected"></ion-icon>
+    </a>
+  </ion-toolbar>
+  <ion-toolbar *ngIf="selected.length < selectMinimum || selected.length > selectMaximum" class="selected-toolbar" style.color="#774FFE">
+    {{ selected.length < selectMinimum ? 'Select a minimum of ' + selectMinimum + ' users' : 'You cannot select more than ' + selectMaximum + ' users' }}
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen scrollEvents="true" (ionScroll)="onScroll($event)">
+
+  <ion-list *ngIf="displayList && displayList.length > 0">
+    <ng-container *ngFor="let connect of displayList">
+      <ion-card *ngIf="!smallScreen || selectable" class="contact-card" (click)="userSelected(connect)"
+        [ngClass]="{'selected': isSelected(connect)}" tappable button>
+        <app-user-fragment [fragment]="connect" [routable]="false"></app-user-fragment>
+      </ion-card>
+
+
+      <ion-item-sliding *ngIf="smallScreen && !selectable" lines="none">
+        <ion-item lines="none" class="slidable-item">
+          <ion-card class="contact-card" (click)="userSelected(connect)" [ngClass]="{'selected': isSelected(connect)}"
+            tappable button>
+            <app-user-fragment [fragment]="connect" [routable]="false"></app-user-fragment>
+          </ion-card>
+        </ion-item>
+
+        <ion-item-options side="end" lines="none">
+          <ion-item-option>
+            <ion-icon name="chatbubbles-outline" slot="icon-only" color="tertiary"></ion-icon>
+          </ion-item-option>
+          <ion-item-option style="background: transparent;" class="end-button">
+            <ion-icon name="person-remove-outline" slot="icon-only" color="danger"></ion-icon>
+          </ion-item-option>
+
+          <!-- <ion-card class="swipe-card">
+            <ion-buttons>
+              <ion-button color="tertiary">
+                <ion-icon name="chatbubbles-outline" slot="icon-only"></ion-icon>
+              </ion-button>
+              <ion-button color="secondary">
+                <ion-icon name="person-remove-outline" slot="icon-only"></ion-icon>
+              </ion-button>
+            </ion-buttons>
+          </ion-card> -->
+
+        </ion-item-options>
+      </ion-item-sliding>
+
+    </ng-container>
+  </ion-list>
+
+  <div *ngIf="!displayList" class="loading-container">
+    <div *ngIf="!displayList && searchingBleepers">
+      <ion-spinner color="tertiary" name="crescent" class="spinner"></ion-spinner>
+    </div>
+    <div *ngIf="!displayList && searchType === 'bleepers' && !searchingBleepers" class="align-center">
+      <ion-icon name="search-outline" class="info-icons" color="medium"></ion-icon>
+      <div class="gray">Search for bleepers</div>
+    </div>
+
+  </div>
+  <div *ngIf="displayList && displayList.length === 0" class="loading-container">
+    <div>
+      <div *ngIf="searchType === 'connections'">You do not have any connections</div>
+      <div *ngIf="searchType === 'bleepers'">There are no bleepers with this name</div>
+    </div>
+  </div>
+
+</ion-content>

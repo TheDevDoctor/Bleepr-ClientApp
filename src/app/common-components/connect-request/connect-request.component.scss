@@ -1,0 +1,15 @@
+ion-item {
+    --background: transparent;
+    margin: 12px 0 0;
+    --inner-padding-bottom: 12px;
+}
+
+h3 {
+    color: #01bbe6;
+    margin: 0;
+    font-size: 13px;
+}
+
+app-user-fragment {
+    flex: auto;
+}

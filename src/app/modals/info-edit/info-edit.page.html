@@ -1,0 +1,53 @@
+<ion-header>
+
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="closeModal()">
+        Close
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Edit About</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="update()">
+        <ion-icon name="checkmark-done-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-progress-bar *ngIf="updatingFragment || updatingProfile" type="indeterminate"></ion-progress-bar>
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="fragmentValues" style="padding-bottom: 12px;">
+    <ion-item class="extra-margin custom-input" id="firstname">
+      <ion-label>Firstname</ion-label>
+      <ion-input formControlName="firstname"></ion-input>
+    </ion-item>
+    <ion-item class="extra-margin custom-input" id="surname">
+      <ion-label>Surname</ion-label>
+      <ion-input formControlName="surname"></ion-input>
+    </ion-item>
+    <ion-item class="extra-margin custom-input">
+      <ion-label>Profession</ion-label>
+      <ion-input formControlName="profession"></ion-input>
+    </ion-item>
+    <ion-item class="extra-margin custom-input">
+      <ion-label>Grade</ion-label>
+      <ion-input formControlName="grade"></ion-input>
+    </ion-item>
+    <ion-item class="extra-margin custom-input">
+      <ion-label>Specialty</ion-label>
+      <ion-input formControlName="specialty"></ion-input>
+    </ion-item>
+  </form>
+  <form [formGroup]="profileValues">
+    <ion-item class="extra-margin custom-input" id="primary_hospital">
+      <ion-label>Firstname</ion-label>
+      <ion-input formControlName="primary_hospital"></ion-input>
+    </ion-item>
+    <ion-item class="extra-margin custom-input" id="primary_location">
+      <ion-label>Surname</ion-label>
+      <ion-input formControlName="primary_location"></ion-input>
+    </ion-item>
+  </form>
+</ion-content>

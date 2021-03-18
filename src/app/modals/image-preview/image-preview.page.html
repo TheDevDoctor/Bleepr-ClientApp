@@ -1,0 +1,18 @@
+<ion-content>
+  <ion-slides #slider [options]="sliderOptions">
+    <ion-slide>
+      <div class="swiper-zoom-container">
+        <img [src]="source" class="image">
+      </div>
+      <ion-button class="cancel-button ion-hide-md-down desktop" color="medium" shape="round"
+        (click)="closeImagePreview()">
+        <ion-icon slot="icon-only" name="close-circle-outline"></ion-icon>
+      </ion-button>
+
+      <ion-button class="cancel-button ion-hide-md-up" color="medium" fill="clear" shape="round"
+        (click)="closeImagePreview()">
+        Close
+      </ion-button>
+    </ion-slide>
+  </ion-slides>
+</ion-content>

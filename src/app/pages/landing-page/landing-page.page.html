@@ -1,0 +1,47 @@
+<ion-content>
+  <ion-grid>
+    <ion-row id="main" class="ion-align-items-center">
+      <ion-col size="7" size-md size-sm size-xs class="ion-justify-content-end ion-text-end">
+        <div #content class="content">
+          <img src="assets/images/bleepr_logo_alpha.png" width="200"/>
+          <h2>The healthcare social network</h2>
+          <p>
+            A platform to connect medical professionals across the world.
+            <br />
+            Join the open healthcare revolution.
+          </p>
+          <ion-button fill="outline" size="large" color="light" (click)="goToAuthentication()">Let's go</ion-button>
+          <div *ngIf="platform == 'web'" class="app-stores">
+            <a href="https://testflight.apple.com/join/4jzWfRGg" target="_blank">
+              <img src="assets/images/download-app-store.png" width="140" />
+            </a>
+            <a href="https://play.google.com/apps/testing/io.bleepr.bleeprApp" target="_blank">
+              <img src="assets/images/download-play-store.png" width="140" />
+            </a>
+          </div>
+        </div>
+      </ion-col>
+      <ion-col size="5" size-md size-sm size-xs class="ion-justify-content-start ion-hide-md-down">
+        <div #phone class="phone">
+          <div class="inner">
+            <img src="assets/images/bleepr_browsing.gif" alt="Bleepr on mobile" />
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row id="footer" class="ion-align-items-center ion-justify-content-center">
+      <ion-col size="auto">
+        <p>&copy; 2020 Bleepr, Ltd</p>
+      </ion-col>
+      <ion-col size="auto">
+        <a routerLink="/help-centre/privacy-policy">Privacy</a>
+      </ion-col>
+      <ion-col size="auto">
+        <a routerLink="/help-centre/terms-and-conditions">Terms and Conditions</a>
+      </ion-col>
+      <ion-col size="auto">
+        <a href="mailto:contact@bleepr.io">Contact Us</a>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

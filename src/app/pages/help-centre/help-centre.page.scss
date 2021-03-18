@@ -1,0 +1,37 @@
+#main {
+    --background: /* backwards compatibility*/
+    -webkit-radial-gradient(50% 0, circle, 
+        rgba(71, 0, 185, 0.9), rgba(71, 0, 185,0.3) 70.71%), 
+    -webkit-radial-gradient(6.7% 75%, circle, 
+        rgba(109, 0, 119, 0.9), rgba(109, 0, 119,0.3) 70.71%),  
+    -webkit-radial-gradient(93.3% 75%, circle, 
+        rgba(0, 174, 255, 0.9), rgba(0, 174, 255,0.1) 70.71%);
+    --background:
+    radial-gradient(circle at 50% 0, 
+        rgba(71, 0, 185, 0.9), rgba(71, 0, 185,0.3) 70.71%), 
+    radial-gradient(circle at 6.7% 75%, 
+        rgba(109, 0, 119, 0.9), rgba(109, 0, 119,0.3) 70.71%), 
+    radial-gradient(circle at 93.3% 75%, 
+        rgba(0, 174, 255, 0.9), rgba(0, 174, 255,0.1) 70.71%);
+    
+    .header {
+        margin-top: 10vw;
+        
+        h1, p {
+            color: white;
+        }
+    }
+
+    ion-grid {
+        max-width: 80rem;
+        height: 100%;
+    }
+}
+
+#main ion-card {
+    max-width: 20rem;
+    
+    ion-card-content {
+        min-height: 5rem;
+    }
+}

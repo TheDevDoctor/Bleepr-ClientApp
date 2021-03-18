@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar [ngClass]="{'popover-toolbar': source === 'popover'}">
+    <ion-buttons slot="start" *ngIf="source === 'modal'">
+      <ion-button (click)="onCloseModal()">
+        Close
+      </ion-button>
+    </ion-buttons>
+
+    <ion-title slot="primary">Notifications</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list class="ion-no-padding">
+    <ng-container *ngFor="let notif of notifications">
+      <app-notification [notification]="notif" [notSeen]="notif.ts > lastSeen" (notificationPressed)="onNotificationPressed($event)"></app-notification>
+    </ng-container>
+  </ion-list>
+</ion-content>

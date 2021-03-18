@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar class="filter-header">
+    <ion-title>Filter</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="onDonePressed()">
+        Done
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-list class="ion-no-padding">
+  <ion-radio-group [(ngModel)]="filtSettings.fileType">
+    <ion-list-header>
+      <ion-label>File Type</ion-label>
+    </ion-list-header>
+    <ion-item class="option">
+      <ion-label>Media</ion-label>
+      <ion-radio slot="end" color="primary" value="media"></ion-radio>
+    </ion-item>
+    <ion-item class="option">
+      <ion-label>Documents</ion-label>
+      <ion-radio slot="end" color="secondary" value="documents"></ion-radio>
+    </ion-item>
+  </ion-radio-group>
+  <!-- <ion-radio-group value="media"> -->
+  <ng-container>
+    <ion-list-header>
+      <ion-label>Media Type</ion-label>
+    </ion-list-header>
+    <ion-item class="option" *ngFor="let option of types[filtSettings.fileType]">
+      <ion-label class="type-label">{{ option }}</ion-label>
+      <ion-checkbox slot="end" color="tertiary" [(ngModel)]="filtSettings[filtSettings.fileType + 'Type'][option]"></ion-checkbox>
+    </ion-item>
+  </ng-container>
+  <!-- </ion-radio-group> -->
+</ion-list>

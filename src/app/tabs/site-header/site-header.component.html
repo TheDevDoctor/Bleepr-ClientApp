@@ -1,0 +1,84 @@
+<ion-toolbar class="desktop-width header-toolbar">
+
+  <ion-avatar *ngIf="page !== 'editor' && page !== 'article' && page !== 'single-bleep'" slot="start"
+    class="header-avatar ion-hide-sm-up" (click)="presentUserPopover()">
+    <div class="image-div" [ngStyle]="{'background-image': 'url(' + profilePic + ')'}"></div>
+  </ion-avatar>
+  <div *ngIf="page !== 'editor' && page !== 'article' && page !== 'single-bleep'" slot="start"
+    class="header-title ion-text-capitalize ion-hide-sm-up">{{ page }}</div>
+
+  <div slot="start" class="left-header ion-hide-sm-down">
+    <div id="logo">
+      <a routerLink="/home/feed">
+        <img src="assets/images/BleeprAlphaNormal.png">
+      </a>
+    </div>
+    <ion-searchbar [value]="searchText" (ionChange)="searchTextChanged($event)" slot="start" class="mobile-searchbar"
+      clear-icon="undefined" search-icon="undefined" mode="ios" (keyup.enter)="onSearchPressed()" debounce="0">
+    </ion-searchbar>
+  </div>
+
+  <ion-buttons slot="start" class="ion-hide-sm-up">
+    <ng-content></ng-content>
+  </ion-buttons>
+
+  <ion-buttons class="ion-hide-sm-down" slot="primary"
+    *ngIf="user && (page === 'feed' || page === 'profile' || page == 'article' || page == 'single-bleep')">
+    <ion-button class="header-btn" (click)="onConnectRequestsDesktop()">
+      <div>
+        <ion-icon name="people-outline" class="header-icon"></ion-icon>
+        <ion-badge color="tertiary" *ngIf="user.account.connect_requests.length > 0">
+          {{ user.account.connect_requests.length }}</ion-badge>
+      </div>
+    </ion-button>
+    <ion-button class="header-btn" routerLink="/home/messaging">
+      <div>
+        <ion-icon name="chatbubbles-outline" class="header-icon"></ion-icon>
+      </div>
+    </ion-button>
+    <ion-button class="header-btn" (click)="presentNotificationsPopover()">
+      <div>
+        <ion-icon name="notifications-outline" class="header-icon"></ion-icon>
+        <ion-badge color="tertiary" *ngIf="notifications && newNotifications > 0">
+          {{ newNotifications }}</ion-badge>
+      </div>
+    </ion-button>
+  </ion-buttons>
+  <ion-buttons slot="end" *ngIf="page == 'editor'">
+    <ion-button class="editor-button publish" fill="solid" (click)="onPublish()">
+      {{ isEdit ? 'Update' : 'Publish' }}
+    </ion-button>
+    <ion-button class="editor-button" [ngClass]="{'save': !savedState}" fill="{{ savedState ? 'clear' : 'solid' }}">
+      {{ savedState ? 'Saved' : 'Save' }}
+    </ion-button>
+  </ion-buttons>
+
+  <ion-buttons slot="end" *ngIf="user && page !== 'editor'" class="ion-hide-sm-up mobile-action-buttons">
+    <ion-button fill="solid" class="search-button" shape="round" color="medium" (click)="onConnectRequestsMobile()">
+      <ion-icon slot="icon-only" name="people-outline"></ion-icon>
+    </ion-button>
+    <ion-badge class="small-screen" color="tertiary" *ngIf="user.account.connect_requests.length > 0">
+      {{ user.account.connect_requests.length }}</ion-badge>
+    <ion-button fill="solid" class="search-button" shape="round" color="medium" (click)="presentNotificationsModal()">
+      <ion-icon slot="icon-only" name="notifications-outline"></ion-icon>
+    </ion-button>
+    <ion-badge class="small-screen" color="tertiary" *ngIf="notifications && newNotifications > 0">
+      {{ newNotifications }}</ion-badge>
+  </ion-buttons>
+
+  <ion-buttons slot="end" *ngIf="!user">
+    <ion-button class="editor-button" fill="solid" color="success" (click)="logIn()">
+      Log in
+    </ion-button>
+    <ion-button class="editor-button" color="secondary" (click)="signUp()">
+      Sign up
+    </ion-button>
+  </ion-buttons>
+
+  <ng-container *ngIf="user">
+    <div class="header-divider ion-hide-sm-down" slot="end"></div>
+    <ion-avatar slot="end" class="header-avatar ion-hide-sm-down" (click)="presentUserPopover()">
+      <img [src]="profilePic">
+    </ion-avatar>
+  </ng-container>
+</ion-toolbar>

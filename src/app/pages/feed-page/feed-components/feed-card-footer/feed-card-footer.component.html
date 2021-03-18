@@ -1,0 +1,20 @@
+<div class="footer">
+  <ion-buttons>
+    <ion-button class="footer-button" (click)="interactionPressed('like')">
+      <ion-icon slot="icon-only" name="heart" *ngIf="liked"></ion-icon>
+      <ion-icon slot="icon-only" name="heart-outline" *ngIf="!liked"></ion-icon>
+      {{ bleepStats?.likes }}
+    </ion-button>
+    <div class="divider"></div>
+    <ion-button class="footer-button" (click)="interactionPressed('comment')">
+      <ion-icon slot="icon-only" name="chatbubble-ellipses" *ngIf="showComments"></ion-icon>
+      <ion-icon slot="icon-only" name="chatbubble-ellipses-outline" *ngIf="!showComments"></ion-icon>
+      {{ bleepStats?.comments }}
+    </ion-button>
+    <div class="divider"></div>
+    <ion-button class="footer-button" (click)="interactionPressed('share')">
+      <ion-icon slot="icon-only" name="share-social-outline"></ion-icon>
+      {{ bleepStats?.shares }}
+    </ion-button>
+  </ion-buttons>
+</div>

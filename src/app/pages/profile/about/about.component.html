@@ -1,0 +1,18 @@
+<ion-card>
+  <ion-card-header>
+    <ion-card-title>About</ion-card-title>
+
+    <ion-button *ngIf="editable" fill="clear" color="medium" (click)="presentEditModal()">
+      <ion-icon slot="icon-only" name="pencil-outline"></ion-icon>
+    </ion-button>
+
+  </ion-card-header>
+
+  <ion-card-content class="base-font">
+    {{ about }}
+    <div *ngIf="!about || about === ''">
+      <ion-skeleton-text style="width: 100%"></ion-skeleton-text>
+      <ion-skeleton-text style="width: 60%"></ion-skeleton-text>
+    </div>
+  </ion-card-content>
+</ion-card>

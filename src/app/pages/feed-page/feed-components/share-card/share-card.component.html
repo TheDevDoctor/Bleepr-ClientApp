@@ -1,0 +1,6 @@
+<ion-card inViewport (inViewportAction)="onIntersection($event)">
+  <app-feed-card-header *ngIf="sharedBleep" [bleep]="sharedBleep"></app-feed-card-header>
+  <p class="body-text" appHashtagging [bleep]="sharedBleep" *ngIf="sharedBleep && sharedBleep.type !== 'article'"></p>
+  <app-bleep-types *ngIf="sharedBleep && sharedBleep.type != 'article'" [bleep]="sharedBleep"></app-bleep-types>
+  <app-article-card *ngIf="sharedBleep && sharedBleep.type == 'article'" [articleId]="sharedBleep.articleId"></app-article-card>
+</ion-card>

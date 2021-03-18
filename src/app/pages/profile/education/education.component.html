@@ -1,0 +1,93 @@
+<ion-card>
+  <ion-card-header>
+    <ion-card-title>Education</ion-card-title>
+
+    <ion-buttons *ngIf="editable" class="option-buttons">
+      <ion-button fill="clear" color="medium" (click)="allowPositionEdit()">
+        <ion-icon *ngIf="!reposition" slot="icon-only" name="swap-vertical-outline"></ion-icon>
+        {{ reposition ? 'DONE' : '' }}
+      </ion-button>
+      <ion-button fill="clear" color="medium" (click)="allowEditButton()" class="ion-hide-sm-up">
+        <ion-icon *ngIf="!showEditButton" slot="icon-only" name="create-outline"></ion-icon>
+        {{ showEditButton ? 'DONE' : '' }}
+      </ion-button>
+      <ion-button fill="clear" color="medium" (click)="presentEditModal(null)">
+        <ion-icon slot="icon-only" name="add-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-card-header>
+
+  <ion-card-content>
+    <ion-reorder-group [disabled]="!reposition" (ionItemReorder)="doReorder($event)">
+      <ion-item class="education-item" *ngFor="let ed of education; let i = index"
+        lines="{{ i < (education.length - 1) ? 'inset' : 'none' }}">
+        <div class="ed-cont">
+          <ion-item lines="none">
+            <div class="education-timeline ion-hide-sm-down">
+              <img *ngIf="icons[i]" src="{{ baseUri + icons[i] + '?' + sasToken }}">
+              <ion-avatar slot="start" class="skeleton-avatar" *ngIf="!icons[i]">
+                <ion-skeleton-text></ion-skeleton-text>
+              </ion-avatar>
+            </div>
+            <div class="education-details">
+              <div class="institution">
+                {{ ed.university }}
+              </div>
+              <div class="degree">
+                {{ ed.degree }}
+                <span *ngIf="ed.qualification"> | {{ ed.qualification }}</span>
+                <span *ngIf="ed.grade"> | {{ ed.grade }}</span>
+              </div>
+              <div class="grade">
+                {{ ed.grade }}
+              </div>
+              <div class="date">
+                {{ ed.start_date | date:'MMM yyyy' }} - {{ !ed.end_date ? 'Current' : ed.end_date | date:'MMM yyyy' }}
+              </div>
+            </div>
+          </ion-item>
+          <ion-item lines="none" class="description" *ngIf="ed.description">
+            <div class="education-timeline ion-hide-sm-down desc">
+              <!-- <ion-icon name="pin-outline"></ion-icon> -->
+              <ion-label>Description: </ion-label>
+            </div>
+            <div class="education-details desc-text">
+              {{ ed.description }}
+            </div>
+          </ion-item>
+
+
+        </div>
+        <div slot="end" *ngIf="editable" class="ion-hide-sm-down">
+          <ion-button fill="clear" color="medium" (click)="presentEditModal(i)" *ngIf="!reposition">
+            <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+          </ion-button>
+        </div>
+        <div slot="end" *ngIf="editable" class="ion-hide-sm-up">
+          <ion-button fill="clear" color="medium" (click)="presentEditModal(i)" *ngIf="!reposition && showEditButton">
+            <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+          </ion-button>
+        </div>
+        <ion-reorder slot="end"></ion-reorder>
+      </ion-item>
+
+      <ion-item *ngIf="!education || education.length === 0" lines="none">
+        <ion-avatar slot="start" class="skeleton-avatar">
+          <ion-skeleton-text></ion-skeleton-text>
+        </ion-avatar>
+        <ion-label>
+          <h3>
+            <ion-skeleton-text style="width: 50%" class="skeleton-title"></ion-skeleton-text>
+          </h3>
+          <p>
+            <ion-skeleton-text style="width: 30%"></ion-skeleton-text>
+          </p>
+          <p>
+            <ion-skeleton-text style="width: 70%"></ion-skeleton-text>
+          </p>
+        </ion-label>
+      </ion-item>
+
+    </ion-reorder-group>
+  </ion-card-content>
+</ion-card>

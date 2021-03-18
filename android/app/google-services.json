@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "811928000104",
+    "firebase_url": "https://bleepr-19cc8.firebaseio.com",
+    "project_id": "bleepr-19cc8",
+    "storage_bucket": "bleepr-19cc8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:811928000104:android:bc09e4865c2e2eb77d8ddd",
+        "android_client_info": {
+          "package_name": "io.bleepr.bleeprApp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "811928000104-6tcjtnbb2gv9h62r6n82e0c3jecg1d5c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "******************************"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "811928000104-6tcjtnbb2gv9h62r6n82e0c3jecg1d5c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

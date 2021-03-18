@@ -1,0 +1,16 @@
+<div class="header">
+  <app-user-fragment [userId]="bleep?.createdById"></app-user-fragment>
+  <div *ngIf="!bleep" class="time-ago">
+    <ion-skeleton-text animated style="width: 70px"></ion-skeleton-text>
+  </div>
+  <div class="edit-cont">
+    <div class="options-cont">
+      <span *ngIf="bleep.edit">Edited </span>
+      <ion-button class="options-button" fill="clear" color="medium" (click)="presentPopover($event)">
+        <ion-icon slot="icon-only" name="ellipsis-horizontal-outline"></ion-icon>
+      </ion-button>
+    </div>
+
+    <div *ngIf="bleep" timeago [date]="bleep.timestamp" class="time-ago"></div>
+  </div>
+</div>

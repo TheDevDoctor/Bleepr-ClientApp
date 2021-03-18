@@ -1,0 +1,117 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-buttons slot="secondary">
+      <ion-button (click)="dismiss(false)" class="bleep-button">
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Create Bleep</ion-title>
+
+    <ion-buttons slot="primary">
+      <ion-button *ngIf="!bleep" class="bleep-button" (click)="sendBleep()" [disabled]="isUploading">
+        BLEEP
+      </ion-button>
+      <ion-spinner name="crescent" color="tertiary" *ngIf="isUploading"></ion-spinner>
+      <ion-button *ngIf="bleep" class="bleep-button" (click)="updateBleep()"
+        [disabled]="bleep.body === bleepForm.controls.body.value && bleep.privacy === bleepForm.controls.privacy.value">
+        UPDATE
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<form [formGroup]="bleepForm">
+  <ion-content>
+    <ion-row class="ion-align-items-center">
+      <ion-col>
+        <div class="user-cont">
+          <ion-avatar slot="start">
+            <div class="image-div" [ngStyle]="{'background-image': 'url(' + profilePic + ')'}"></div>
+          </ion-avatar>
+          <ion-label>
+            <h3 class="name">{{ user.fragment.firstname }} {{ user.fragment.surname }}</h3>
+            <ion-select okText="Okay" cancelText="Dismiss" formControlName="privacy">
+              <ion-select-option value="public">Public</ion-select-option>
+              <ion-select-option value="private">Private</ion-select-option>
+              <ion-select-option value="hidden">Hidden</ion-select-option>
+            </ion-select>
+
+          </ion-label>
+        </div>
+      </ion-col>
+      <ion-col *ngIf="!bleepForm.controls.articleId.value">
+        <ion-segment scrollable mode="ios">
+          <ion-segment-button *ngFor="let item of searchOptions; let i=index" (click)="searchOptionPressed(i)"
+            [disabled]="bleepForm.controls.type.value !== 'basic'">
+            <!-- <ion-chip [color]="item.color" [outline]="!item.active"> -->
+            <ion-label>{{ item.name }}</ion-label>
+            <ion-icon [name]="item.icon" [color]="item.color"></ion-icon>
+            <!-- </ion-chip> -->
+          </ion-segment-button>
+          <div class="end-block"></div>
+        </ion-segment>
+      </ion-col>
+    </ion-row>
+
+    <ion-item lines="none">
+      <!-- <ion-label position="floating"></ion-label> -->
+      <ion-textarea placeholder="What do you want to say?" auto-grow="true" debounce="500" formControlName="body">
+      </ion-textarea>
+    </ion-item>
+
+    <ng-container *ngIf="bleepFormImages.length > 0">
+      <ion-card *ngFor="let img of bleepFormImages.controls; let i = index;">
+        <img [src]="img['controls'].uri.value" style="margin-bottom: -5px;">
+
+        <ion-progress-bar type="indeterminate" *ngIf="isUploading" class="bleep-image-loader">
+        </ion-progress-bar>
+
+        <ion-button class="img-cancel-btn" color="medium" (click)="removePhoto()" *ngIf="!bleep">
+          <ion-icon slot="icon-only" name="close-circle-outline"></ion-icon>
+        </ion-button>
+      </ion-card>
+    </ng-container>
+
+    <ng-container *ngIf="bleepFormDocuments.length > 0">
+      <app-file-placeholder *ngFor="let document of bleepFormDocuments.controls; let i = index;"
+        [guid]="document['controls'].guid.value" [userId]="user.fragment.userId"></app-file-placeholder>
+    </ng-container>
+
+    <div *ngIf="bleepFormVideos.length > 0">
+      <div *ngFor="let vid of bleepFormVideos.controls; let i = index;" class="video-cont">
+        <video preload="auto" crossorigin controls width="100%" *ngIf="vid['controls'].source.value === 'blob'">
+          <source [src]="vid['controls'].uri.value">
+        </video>
+
+        <div class="youtube-wrapper" *ngIf="vid['controls'].source.value === 'youtube'">
+          <iframe width="560" height="315" [src]="youtubeVideo" frameborder="0"
+            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+
+        <ion-button class="img-cancel-btn" color="medium" (click)="removeVideo()" *ngIf="!bleep">
+          <ion-icon slot="icon-only" name="close-circle-outline"></ion-icon>
+        </ion-button>
+      </div>
+    </div>
+
+    <app-share-card *ngIf="!!sharedBleep" [bleep]="sharedBleep"></app-share-card>
+
+    <app-article-card *ngIf="bleepForm.controls.articleId.value && articleId"
+      [articleId]="bleepForm.controls.articleId.value"></app-article-card>
+    <app-article-card *ngIf="bleepForm.controls.articleId.value && article" [article]="article"></app-article-card>
+
+    <ng-container *ngIf="linkPreview">
+      <ion-card>
+        <div>
+          <img [src]="linkPreview.image" class="link-image">
+          <ion-card-header>
+            <ion-card-subtitle>{{ linkPreview.title }}</ion-card-subtitle>
+            <div>{{ linkPreview.description }}</div>
+          </ion-card-header>
+        </div>
+      </ion-card>
+    </ng-container>
+
+  </ion-content>
+</form>
+<app-items-uploaded></app-items-uploaded>

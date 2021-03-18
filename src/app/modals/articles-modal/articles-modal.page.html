@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button fill="clear" color="medium" (click)="onCloseModal()">
+        Close
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" color="medium" (click)="onOpenFilter($event)">
+        <ion-icon slot="icon-only" name="filter-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-progress-bar type="indeterminate" *ngIf="actionOccuring"></ion-progress-bar>
+<ion-content>
+  <ng-container *ngIf="displayList">
+
+    <ion-list *ngIf="displayList.length > 0">
+      <ion-item button *ngFor="let item of displayList; let i = index" detail="false">
+        <ion-label (click)="articlePressed(item)">
+          <h1>{{ !!item.title ? item.title : 'No Title' }}</h1>
+
+          <div class="bottom-cont">
+            <p>Last edited <span>
+                {{ item.edited | date }}
+              </span></p>
+          </div>
+        </ion-label>
+        <div class="delete-cont">
+          <ion-button size="small" color="danger" fill="clear" type="submit" class="delete-button"
+            (click)="onDeleteArticle(i)">
+            <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+          </ion-button>
+        </div>
+      </ion-item>
+    </ion-list>
+
+    <div *ngIf="displayList.length === 0" class="no-articles-container">
+      <div>You do not have any articles in this search. Try changing your filter
+        settings by pressing the filter button.</div>
+    </div>
+  </ng-container>
+
+  <div class="spinner-cont" *ngIf="!displayList">
+    <ion-spinner name="crescent" color="tertiary"></ion-spinner>
+  </div>
+
+</ion-content>

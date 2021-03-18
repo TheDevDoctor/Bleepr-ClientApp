@@ -1,0 +1,13 @@
+ion-title {
+    @media (max-width: 540px) {
+        text-align: center;
+    }
+}
+
+.popover-toolbar {
+    --min-height: 34px;
+
+    ion-title {
+        font-size: 16px;
+    }
+}

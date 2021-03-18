@@ -1,0 +1,22 @@
+<ion-item *ngIf="this.name" class="notification-item" tappable button (click)="onNotificationPressed()" detail="false"
+ [ngClass]="{'not-seen': notSeen}">
+  <ion-avatar>
+    <!-- <img [src]="profilePic"> -->
+    <div class="image-div" [ngStyle]="{'background-image': 'url(' + profilePic + ')'}"></div>
+  </ion-avatar>
+
+  <ion-label class="ion-text-wrap notification-text">
+    <span class="name">{{ name }}</span>
+    <span> has
+      {{ notification.event === 'like' ? 'liked your ' : notification.event === 'comment' ? 'commented on your ' : 'shared your '}}</span>
+    <span
+      class="content-type">{{ notification.contentType === 'comment' ? 'comment' : notification.contentType === 'image' ? 'photo' : 'bleep'}}</span>
+
+    <div class="time-cont">
+      <ion-icon
+        name="{{ notification.event === 'comment' ? 'chatbubble-ellipses-outline' : notification.event === 'like' ? 'heart-outline' : 'share-social-outline'}}">
+      </ion-icon>
+      <div timeago [date]="notification.ts" class="time-ago"></div>
+    </div>
+  </ion-label>
+</ion-item>

@@ -1,0 +1,172 @@
+# Android
+# Build your Android project with Gradle.
+# Add steps that test, sign, and distribute the APK, save build artifacts, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/android
+
+# Trigger the pipeline on any commits to master
+trigger:
+  branches:
+    include:
+      - master
+  paths:
+    exclude:
+      - ios/*
+      - resources/*
+      - azure-pipelines.yml
+      - azure-pipelines-android.yml
+      - azure-pipelines-ios.yml
+      - docs/*
+
+pool:
+  vmImage: 'macos-latest'
+
+# Pull in required settings from variable groups (library)
+variables:
+- group: Bleepr-CoreInfrastructure
+- group: Bleepr-Android
+
+stages:
+- stage: build
+  displayName: Build Android app
+  # Kick off the jobs to build the Android app bundle from Angular source code
+  jobs:
+    # Install packages and prod-build the Angular app
+    - job: buildbundle
+      displayName: Sync & Build Android bundle
+      steps:
+        - script: |
+            sudo npm install -g @ionic/cli
+            npm install
+            ionic capacitor sync android
+          displayName: Capacitor Sync Android
+        # Get the version name value from the config.xml file and persist as VERSION_NAME variable
+        - script: |
+            brew install xmlstarlet
+            VERSION_NAME=$(xmlstarlet pyx config.xml | grep -v "^Axmlns " | xmlstarlet p2x | xmlstarlet sel -t -v /widget/@version)
+            echo "##vso[task.setvariable variable=CURRENT_VERSION_NAME]$VERSION_NAME"
+          displayName: Set VersionName var
+        # Build Android app with Gradle and output bundle
+        - task: Gradle@2
+          displayName: Build Android app with Gradle
+          inputs:
+            workingDirectory: '$(system.defaultWorkingDirectory)/android'
+            options: '-PversionName=$(CURRENT_VERSION_NAME) -PversionCode=$(Build.BuildId)'
+            gradleWrapperFile: '$(system.defaultWorkingDirectory)/android/gradlew'
+            gradleOptions: '-Xmx3072m'
+            publishJUnitResults: false
+            testResultsFiles: '**/TEST-*.xml'
+            tasks: 'bundleRelease'
+        # Download Keystore from secure files
+        - task: DownloadSecureFile@1
+          name: android_keystore
+          displayName: Download Keystore from Secure Files
+          inputs:
+            secureFile: 'android_keystore.jks'
+        # Use Jarsigner to sign the bundle
+        - task: CmdLine@2
+          displayName: Sign Android Bundle
+          inputs:
+            script: 'jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore $(android_keystore.secureFilePath) -storepass $(KEYSTORE_PASSWORD) -keypass $(KEY0_PASSWORD) $(System.DefaultWorkingDirectory)/android/app/build/outputs/bundle/release/app-release.aab $(KEY0_ALIAS)'
+        # Copy Android APK to Artifact staging
+        - task: CopyFiles@2
+          displayName: Copy bundle to Artifact Staging
+          inputs:
+            contents: android/app/build/outputs/bundle/release/*.aab
+            targetFolder: '$(build.artifactStagingDirectory)'
+        # Copy CHANGELOG.md
+        - task: CopyFiles@2
+          displayName: Copy Changelog to staging
+          inputs:
+            contents: CHANGELOG.md
+            targetFolder: '$(build.artifactStagingDirectory)'
+        # Publish the Android prod files as an artifact of the build  
+        - task: PublishBuildArtifacts@1
+          displayName: Publish artifact (Bleepr-ClientApp-Android-Release)
+          inputs:
+            pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
+            artifactName: 'Bleepr-ClientApp-Android-Release'
+
+# Release stage to deploy combined WebAPI and ClientApp to Test environment
+- stage: internalrelease
+  displayName: Release to Internal
+  jobs:
+  - deployment: deploy_android_internal
+    displayName: Deploy to Play Store internal ring
+    environment: internal
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          # Distribute to Internal Testers for pre-alpha testing
+          - task: GooglePlayReleaseBundle@3
+            displayName: Release to Internal Testers on Play Store
+            inputs:
+              serviceConnection: 'Google Play'
+              applicationId: 'io.bleepr.bleeprApp'
+              bundleFile: '$(Pipeline.Workspace)/Bleepr-ClientApp-Android-Release/android/app/build/outputs/bundle/release/*.aab'
+              changeLogFile: '$(Pipeline.Workspace)/Bleepr-ClientApp-Android-Release/CHANGELOG.md'
+              languageCode: 'en-GB'
+              track: 'internal'
+
+# Release stage to deploy combined WebAPI and ClientApp to Test environment
+- stage: alpharelease
+  displayName: Release to Alpha
+  jobs:
+  - deployment: deploy_android_alpha
+    displayName: Promote to Alpha
+    environment: alpha
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - download: none
+          # Promote to Alpha testing ring
+          - task: GooglePlayPromote@3
+            displayName: Promote to Alpha on Play Store
+            inputs:
+              serviceConnection: 'Google Play'
+              packageName: 'io.bleepr.bleeprApp'
+              sourceTrack: 'internal'
+              destinationTrack: 'alpha'
+
+# Release stage to deploy combined WebAPI and ClientApp to Test environment
+- stage: betarelease
+  displayName: Release to Beta
+  jobs:
+  - deployment: deploy_android_beta
+    displayName: Promote to Beta
+    environment: beta
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - download: none
+          # Promote to Beta testing ring
+          - task: GooglePlayPromote@3
+            displayName: Promote to Beta on Play Store
+            inputs:
+              serviceConnection: 'Google Play'
+              packageName: 'io.bleepr.bleeprApp'
+              sourceTrack: 'alpha'
+              destinationTrack: 'beta'
+
+# Release stage to deploy combined WebAPI and ClientApp to Test environment
+- stage: prodrelease
+  displayName: Release to Prod
+  jobs:
+  - deployment: deploy_android_prod
+    displayName: Promote to Prod
+    environment: production
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - download: none
+          # Promote to Production - TODO: add phased rollout
+          - task: GooglePlayPromote@3
+            displayName: Promote to Prod on Play Store
+            inputs:
+              serviceConnection: 'Google Play'
+              packageName: 'io.bleepr.bleeprApp'
+              sourceTrack: 'beta'
+              destinationTrack: 'production'

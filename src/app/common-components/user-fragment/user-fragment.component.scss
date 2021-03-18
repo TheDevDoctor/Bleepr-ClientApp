@@ -1,0 +1,47 @@
+.frag-container {
+    display: flex;
+    align-items: flex-start;
+    margin-left: 0.3rem;
+}
+
+ion-avatar {
+    max-height: 40px;
+    min-height: 40px;
+    max-width: 40px;
+    min-width: 40px;
+    margin-right: 12px;
+    outline: none;
+    overflow: hidden;
+}
+
+h6 {
+    margin: 0 0 4px;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.info-text {
+    font-size: 12px;
+}
+
+.top-text-cont {
+    flex: auto;
+    padding-top: 0.2rem;
+}
+
+.role {
+    margin-bottom: 2px;
+    font-size: 13px;
+    color: #01bbe6;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.image-div {
+    min-height: 40px;
+    background-repeat: no-repeat;
+    background-size: cover;
+}

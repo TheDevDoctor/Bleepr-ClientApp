@@ -1,0 +1,571 @@
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ * Put style rules here that you want to apply globally. These styles are for
+ * the entire app and not just one component. Additionally, this file can be
+ * used as an entry point to import other CSS/Sass files to be included in the
+ * output CSS.
+ * For more information on global stylesheets, visit the documentation:
+ * https://ionicframework.com/docs/layout/global-stylesheets
+ */
+
+/* Core CSS required for Ionic components to work properly */
+@import "~@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "~@ionic/angular/css/normalize.css";
+@import "~@ionic/angular/css/structure.css";
+@import "~@ionic/angular/css/typography.css";
+@import '~@ionic/angular/css/display.css';
+
+/* Optional CSS utils that can be commented out */
+@import "~@ionic/angular/css/padding.css";
+@import "~@ionic/angular/css/float-elements.css";
+@import "~@ionic/angular/css/text-alignment.css";
+@import "~@ionic/angular/css/text-transformation.css";
+@import "~@ionic/angular/css/flex-utils.css";
+
+@import "https://cdnjs.com/libraries/highlight.js/";
+// @import url('https://fonts.googleapis.com/css?family=Indie+Flower&display=swap');
+
+ion-content {
+    --ion-background-color: #f1f1f1;
+}
+
+ion-card {
+    --background: #fcfcfc !important;
+}
+
+.desktop-width {
+    max-width: 1228px;
+    margin: auto;
+}
+
+hr {
+    background: #00000017;
+}
+
+.flex {
+    display: flex;
+}
+
+ion-searchbar.mobile-searchbar {
+    .searchbar-input-container {
+        height: unset;
+
+        input {
+            min-height: 44px;
+            padding: 0 18px !important;
+
+            @media (max-width:540px) {
+                margin-top: 6px;
+                box-shadow: 0px 5px 6px 2px rgba(119, 119, 119, 0.31);
+            }
+            
+        }
+    }
+}
+
+// Edit Quill SCSS in global.
+
+.ql-toolbar.ql-snow {
+    background: #f3f3f3;
+
+    .ql-formats {
+        display: inline-flex !important;
+        margin: 10px !important;
+    }
+}
+
+.ql-editor {
+    font-size: 18px;
+    padding: 10px 2px !important;
+    overflow: visible !important;
+    -webkit-user-select: text;
+    font-family: nunito !important;
+    text-align: justify !important;
+
+    p {
+        font-size: 18px !important;
+        margin-top: 29px !important;
+        font-family: nunito !important;
+    }
+
+    &.ql-blank::before {
+        left: 2px !important;
+        top: 39px;
+    }
+
+    ul {
+        margin-top: 16px !important;
+
+        li {
+            margin-bottom: 4px;
+        }
+    }
+
+    hr {
+        border: none;
+        color: #111;
+        letter-spacing: 1em;
+        text-align: center;
+        overflow: unset;
+        margin: 40px;
+        background: none;
+
+        &:before {
+            content: "...";
+            top: -17px;
+            position: relative;
+        }
+    }
+
+    blockquote {
+        margin: 36px 16px !important;
+    }
+
+    .reference {
+        background: #00000014;
+        padding: 0 4px;
+        border-radius: 3px;
+        text-decoration: none !important;
+        color: #444444;
+        white-space: pre-line !important;
+
+        // overwrite and replace css styling of ql-bubble styled link and replace with index of reference. 
+        &:after {
+            content: attr(data-indexstr) !important;
+            visibility: visible !important;
+            position: relative !important;
+            margin-left: 0 !important;
+            -webkit-transform: unset !important;
+            transform: unset !important;
+            // right: -16px !important;
+            left: unset !important;
+            top: -6px !important;
+            border-top: none !important;
+            border-left: none !important;
+            border-right: none !important;
+            font-size: 14px;
+            height: unset !important;
+            width: unset !important;
+        }
+    }
+
+    h1 {
+        text-align: left !important;
+        margin-top: 29px !important;
+
+        font-family: "Montserrat", Sans-Serif !important;
+
+        @media (max-width: 768px) {
+            font-size: 28px !important;
+        }
+    }
+
+    h2 {
+        text-align: left !important;
+        margin-top: 29px !important;
+        font-family: "Montserrat", Sans-Serif !important;
+    }
+
+    a {
+        white-space: pre-wrap !important;
+    }
+
+    .editor-video-cont {
+        margin: 36px 0 0;
+    }
+
+    .youtube-video-container {
+        margin: 36px 0 0;
+        position: relative;
+        padding-bottom: 56.25%;
+        /* 16:9 */
+        height: 0;
+
+        iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    .ql-syntax {
+        margin-top: 36px !important;
+        padding: 10px 15px !important;
+    }
+
+}
+
+.ql-container {
+    max-width: 700px;
+    height: unset !important;
+    margin: auto !important;
+    border: none !important;
+}
+
+.ql-toolbar {
+    border-bottom: none !important;
+}
+
+.ql-clipboard {
+    position: fixed !important;
+    opacity: 0 !important;
+    left: 50% !important;
+    top: 50% !important;
+    height: 100%;
+}
+
+.editor-image {
+    width: 100%;
+    margin: 0;
+    position: relative;
+    margin-top: 48px;
+    text-align: center;
+
+    img.editor-image-blur {
+        filter: blur(8px);
+        -webkit-filter: blur(8px);
+    }
+
+    ion-progress-bar {
+        position: absolute;
+        top: 50%;
+        width: 50%;
+        left: 25%;
+    }
+
+    &.image-border {
+        border: 10px solid black;
+    }
+
+    &.edit:hover {
+        .image-button-cont {
+            opacity: 1;
+        }
+
+        img {
+            border: 4px solid rgba(106, 172, 255, 0.52);
+        }
+    }
+}
+
+.editor-image-caption {
+    text-align: center;
+    font-size: 14px;
+    color: #505050;
+    position: relative;
+    overflow: hidden;
+
+    &.empty {
+        .image-caption-text-area {
+            text-align: left;
+            position: absolute;
+            width: 5px;
+        }
+
+        &::after {
+            position: relative;
+            content: attr(data-placeholder);
+            color: rgba(0, 0, 0, .44);
+            font-weight: 400;
+        }
+    }
+
+    .image-caption-text-area {
+        // position: absolute;
+        resize: none;
+        width: 100%;
+        text-align: center;
+        border: none;
+        resize: none;
+        outline: none;
+    }
+}
+
+.image-button-cont {
+    list-style-type: none !important;
+    padding: 0 !important;
+    margin: 0 0 20px !important;
+    position: absolute;
+    top: -44px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    opacity: 0;
+    height: 48px;
+}
+
+.image-button-list {
+    list-style-type: none !important;
+    display: inline-block !important;
+    margin: 0 4px !important;
+    padding: 0 !important;
+
+    &::before {
+        display: none !important;
+    }
+
+    button {
+        background: #9e9e9e;
+        border-radius: 15px;
+        padding: 12px;
+        color: white;
+    }
+}
+
+ion-header.main-header {
+
+    @media (min-width:768px) {
+        background: white;
+    }
+
+}
+
+
+// MODALS:
+
+.user-list-custom-modal .modal-wrapper {
+    max-width: 600px;
+}
+
+.document-modal .modal-wrapper {
+    min-width: 75vw;
+    min-height: 85vh;
+}
+
+// ion-modal.auto-height {
+//     @media (min-width:768px) {
+//         &.bottom {
+//             align-items: flex-end;
+//         }
+
+//         --height: auto;
+
+//         .ion-page {
+//             position: relative;
+//             display: block;
+//             contain: content;
+
+//             .inner-content {
+//                 max-height: 80vh;
+//                 overflow: auto;
+//                 padding: 10px;
+//             }
+//         }
+//     }
+// }
+
+ion-popover {
+    @media (min-width:768px) {
+        --width: auto !important;
+    }
+
+}
+
+.user-menu-popover {
+
+    --width: 280px;
+
+    .popover-content {
+        @media (max-width:1228px) {
+            right: 15px;
+        }
+
+        @media (max-width:540px) {
+            left: 15px !important;
+            right: unset;
+        }
+
+        transform-origin: right top !important;
+        max-width: 300px;
+        right: calc(50vw - 600px);
+        left: unset !important;
+        top: 75px !important;
+    }
+}
+
+.publish-menu-popover {
+    --max-width: 500px;
+    --width: 500px;
+
+    .popover-content {
+        @media (max-width:1228px) {
+            right: 162px;
+        }
+
+        @media (max-width:540px) {
+            right: 5%;
+            width: 90%;
+        }
+
+        transform-origin: right top !important;
+
+        right: calc(50vw - 452px);
+        left: unset !important;
+        top: 75px !important;
+    }
+}
+
+.connect-req-menu-popover {
+    --max-width: unset;
+    --width: 460px;
+
+    .popover-content {
+        @media (max-width:1228px) {
+            right: 196px;
+        }
+
+        transform-origin: right top !important;
+
+        right: calc(50vw - 420px);
+        left: unset !important;
+        top: 75px !important;
+        min-width: 400px;
+    }
+}
+
+.notifications-menu-popover {
+    --max-width: unset;
+    --width: 460px;
+
+    .popover-content {
+        @media (max-width:1228px) {
+            right: 95px;
+        }
+
+        transform-origin: right top !important;
+
+        right: calc(50vw - 518px);
+        left: unset !important;
+        top: 75px !important;
+    }
+}
+
+.messaging-menu-popover {
+    --max-width: unset;
+    --width: 460px;
+
+    .popover-content {
+        @media (max-width:1228px) {
+            right: 143px;
+        }
+
+        transform-origin: right top !important;
+
+        right: calc(50vw - 470px);
+        left: unset !important;
+        top: 75px !important;
+    }
+}
+
+.desktop-picker-wrapper {
+    @media (min-width:768px) {
+        .picker-wrapper {
+            top: 0;
+            border-radius: 12px;
+            max-width: 320px;
+        }
+    }
+}
+
+.custom-input-wrapper {
+    position: relative;
+
+    &:not(:last-child) {
+        margin-bottom: 16px;
+    }
+}
+
+ion-item.custom-input {
+    --border-color: transparent !important;
+    --highlight-height: 0;
+    border: 1px solid #dedede;
+    border-radius: 4px;
+    --background: #00000008;
+    --inner-padding-bottom: 5px;
+    --inner-padding-top: 5px;
+    --min-height: 0;
+    position: relative;
+    text-align: right;
+    overflow: visible;
+    z-index: 0;
+
+    &.extra-margin {
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+
+    &.align-left {
+        text-align: left;
+    }
+
+    // &.bottom-margin {
+    //     margin-bottom: 10px;
+    // }
+
+    &.item-has-focus {
+        border: 1px solid var(--ion-color-primary);
+    }
+
+    ion-input {
+        --padding-top: 4px;
+        --padding-bottom: 4px;
+    }
+
+    ion-label {
+        color: #807e7e !important;
+        font-weight: 300;
+        font-size: 1rem !important;
+        margin: 0;
+        margin-right: 12px;
+    }
+
+    ion-select {
+        min-width: 60%;
+    }
+}
+
+ion-modal.image-preview {
+    --backdrop-opacity: 0.8 !important;
+
+    .modal-wrapper {
+
+        background: transparent;
+
+        @media (min-width:768px) {
+            box-shadow: none;
+            width: 70vw;
+            height: 90vh;
+        }
+    }
+}
+
+// date picker modal css: 
+li-ionic4-datepicker-modal {
+    ion-footer {
+        height: unset !important;
+    }
+
+    ion-header {
+        min-height: calc(60px + env(safe-area-inset-top));
+    }
+}
+
+.bleep-hashtag {
+    font-weight: bold;
+    color: #774EEF;
+}
+
+
+
+// TOASTS ========================================================================================================================
+
+.article-deletion-toast {
+    @media (min-width: 540px) {
+        --max-width: 400px;
+    }
+}

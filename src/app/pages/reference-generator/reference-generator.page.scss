@@ -1,0 +1,54 @@
+ion-content {
+    --background: white;
+}
+
+form {
+    padding-top: 12px;
+}
+// .line-input {
+//     margin-bottom: 0 !important;
+//     background: transparent;
+
+ion-item {
+    --border-color: transparent !important;
+    --highlight-height: 0;
+    border: 1px solid #dedede;
+    border-radius: 4px;
+    --background: #00000008;
+    --inner-padding-bottom: 5px;
+    --inner-padding-top: 5px;
+    --min-height: 0;
+
+    &:not(:last-child) {
+        margin-bottom: 10px;
+    }
+
+    // &.bottom-margin {
+    //     margin-bottom: 10px;
+    // }
+
+    &.item-has-focus {
+        border: 1px solid var(--ion-color-primary);
+    }
+
+    ion-input {
+        --padding-top: 4px;
+        --padding-bottom: 4px;
+    }
+
+    ion-label {
+        color: #807e7e !important;
+        font-weight: 300;
+        font-size: 1rem !important;
+        margin: 0;
+    }
+}
+
+.journal-cont {
+    padding: 0 12px;
+
+    h5 {
+        margin-bottom: 0;
+        margin-left: 10px;
+    }
+}

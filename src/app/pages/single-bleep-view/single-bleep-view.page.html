@@ -1,0 +1,19 @@
+<ion-header translucent="true" class="main-header">
+  <app-site-header [page]="'single-bleep'">
+    <ion-back-button icon="arrow-back-outline" text="" color="medium" class="ion-hide-sm-up"></ion-back-button>
+  </app-site-header>
+</ion-header>
+
+<ion-content>
+  <ion-grid class="desktop-width">
+    <ion-row>
+      <ion-col offset-lg="2" offset-md="2" size-lg="8" size-md="8" size-sm="12">
+        <app-feed-card *ngIf="bleep && bleepLikes && bleepStats" [userFragment]="userFragment" [bleep]="bleep" [stats]="bleepStats"
+          [setLikes]="bleepLikes" [showComments]="true"></app-feed-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <div class="spin-container" *ngIf="!bleep || !bleepLikes || !bleepStats">
+    <ion-spinner name="crescent" color="tertiary"></ion-spinner>
+  </div>
+</ion-content>

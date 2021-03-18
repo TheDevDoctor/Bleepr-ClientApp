@@ -1,0 +1,45 @@
+.container {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    .inner-cont {
+        text-align: center;
+        padding: 36px;
+
+        ion-icon {
+            font-size: 80px;
+        }
+
+        h6 {
+            color: gray;
+            margin-top: 24px;
+        }
+    }
+}
+
+.popover {
+    max-width: 400px;
+
+    .inner-cont {
+        padding: 16px;
+
+        h6 {
+            margin: 0;
+            font-size: 14px;
+        }
+    }  
+}
+
+.popover-toolbar {
+    --min-height: 34px;
+
+    ion-title {
+        font-size: 16px;
+    }
+}
+
+ion-title.ios {
+    text-align: center;
+}

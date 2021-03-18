@@ -1,0 +1,10 @@
+<div class="option-dropdown" [style.max-height]="dropdownHeight" *ngIf="items">
+  <div class="spinner-cont" *ngIf="!items">
+    <ion-spinner name="crescent" color="tertiary"></ion-spinner>
+  </div>
+  <ion-list *ngIf="items">
+    <ion-item button *ngFor="let item of items" (mousedown)="onItemSelected(item)" class="ion-text-capitalize">
+      {{ item }}
+    </ion-item>
+  </ion-list>
+</div>

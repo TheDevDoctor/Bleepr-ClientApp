@@ -1,0 +1,23 @@
+.video-wrapper {
+    display: inline-block;
+    margin: 0 2px 10px;
+    background: #f8f8ff;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    background: #38383894;
+}
+
+.video {
+    margin-bottom: -5px;
+}
+
+.label {
+    background: #784def;
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 0 0 0px 6px;
+}

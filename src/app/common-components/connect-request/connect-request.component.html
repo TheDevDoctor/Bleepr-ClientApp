@@ -1,0 +1,16 @@
+<ion-item *ngIf="connect">
+
+  <app-user-fragment [userId]="id"></app-user-fragment>
+
+  <div *ngIf="!isAction">
+    <ion-button fill="clear" color="medium" (click)="acceptRequest()">
+      <ion-icon name="checkmark-outline" slot="icon-only"></ion-icon>
+    </ion-button>
+    <ion-button fill="clear" color="medium" (click)="declineRequest()">
+      <ion-icon name="close-outline" slot="icon-only"></ion-icon>
+    </ion-button>
+  </div>
+  <div *ngIf="isAction" style="margin-right: 12px;">
+    <ion-spinner name="crescent" color="tertiary"></ion-spinner>
+  </div>
+</ion-item>

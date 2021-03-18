@@ -1,0 +1,46 @@
+ion-card {
+    margin: 16px 10px;
+}
+
+ion-card-title {
+    font-size: 16px;
+}
+
+ion-card-content {
+    padding-bottom: 0;
+    padding-right: 8px;
+}
+
+ion-list {
+    background: transparent;
+    padding: 0;
+}
+
+ion-item {
+    --background: transparent;
+    --padding-start: 0;
+    --padding-end: 0;
+    --inner-padding-end: 0;
+}
+
+h3 {
+    color: #505050;
+    font-weight: bold;
+    margin: 0;
+    font-size: 11px;
+    margin-top: 1px;
+
+    &.specialty {
+        color: #be7928;
+    }
+}
+
+h2 {
+    margin: 0;
+    font-size: 14px;
+}
+
+ion-button {
+    margin: 0;
+    color: #898989;
+}

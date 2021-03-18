@@ -1,0 +1,42 @@
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 14px 10px;
+}
+
+.time-ago {
+    flex: initial;
+    font-size: 12px;
+    padding-right: 12px;
+}
+
+.options-button {
+    --padding-start: 6px;
+    --padding-end: 6px;
+    --padding-bottom: 0;
+    --padding-top: 0px;
+    min-height: 0;
+    height: 20px;
+}
+
+.edit-cont {
+    text-align: right;
+    text-align: right;
+    position: relative;
+    left: 12px;
+    top: -8px;
+    min-width: 7em;
+
+    .options-cont {
+        display: flex;
+        align-items: center;
+        font-size: 12px;
+        font-weight: bold;
+        justify-content: flex-end;
+
+        .edit-margin {
+            margin-right: 10px;
+        }
+    }
+}

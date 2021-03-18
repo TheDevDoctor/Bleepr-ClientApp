@@ -1,0 +1,20 @@
+<div class="frag-container">
+  <ion-avatar *ngIf="sasToken" tappable [routerLink]="routable ? '/home/profile/' + userId : null">
+    <!-- <img [src]="profilePic"> -->
+    <div class="image-div" [ngStyle]="{'background-image': 'url(' + profilePic + ')'}"></div>
+  </ion-avatar>
+  <div class="top-text-cont">
+    <div *ngIf="name">
+      <h6><a [routerLink]="routable ? '/home/profile/' + userId : null">{{ name }}</a></h6>
+    </div>
+    <div *ngIf="!name">
+      <ion-skeleton-text animated style="width: 90%"></ion-skeleton-text>
+    </div>
+    <div *ngIf="position">
+      <div class="role">{{ position }}</div>
+    </div>
+    <div *ngIf="!position">
+      <ion-skeleton-text animated style="width: 70%"></ion-skeleton-text>
+    </div>
+  </div>  
+</div>

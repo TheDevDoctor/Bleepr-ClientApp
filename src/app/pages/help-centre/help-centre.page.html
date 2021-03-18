@@ -1,0 +1,42 @@
+<ion-content id="main" class="ion-text-center">
+  <ion-grid>
+    <ion-row class="header">
+      <ion-col>
+        <h1>Help Centre</h1>
+        <p>Welcome to Bleepr's help centre, the hub for useful content and guides to using the platform.</p>
+      </ion-col>
+    </ion-row>
+    <ion-row id="help-content-row" class="ion-justify-content-center ion-align-items-center">
+      <ion-col size="auto">
+        <ion-card>
+          <img src="./assets/images/privacy_header.jpeg" />
+          <ion-card-header>
+            <ion-card-title>My Privacy</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            Understand how Bleepr safeguards your privacy and learn about the tools available to you to help manage it.
+          </ion-card-content>
+          <ion-item button (click)="presentContentModal('privacy-policy')">
+            <ion-icon name="document-outline" slot="start"></ion-icon>
+            <ion-label>View Privacy Policy</ion-label>
+          </ion-item>
+        </ion-card>
+      </ion-col>
+      <ion-col size="auto">
+        <ion-card>
+          <img src="./assets/images/privacy_header.jpeg" />
+          <ion-card-header>
+            <ion-card-title>Our Community</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            Learn about how the Bleepr community operates and how you can best take part in it.
+          </ion-card-content>
+          <ion-item button (click)="presentContentModal('terms-and-conditions')">
+            <ion-icon name="document-outline" slot="start"></ion-icon>
+            <ion-label>View Terms & Conditions</ion-label>
+          </ion-item>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

@@ -1,0 +1,81 @@
+ion-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 16px;
+}
+
+ion-card {
+    @media (max-width: 540px) {
+        margin: 24px 0;
+        border-radius: 0;
+    }
+}
+
+ion-item {
+    --background: transparent;
+    --inner-padding-end: 0;
+
+    @media (max-width: 768px) {
+        --padding-start: 0;
+    }
+}
+
+ion-card-title {
+    margin-top: 10px;
+    font-size: 24px;
+    font-weight: normal;
+}
+
+
+.publication-item {
+    margin-top: 18px;
+
+    hr {
+        margin: 22px;
+    }
+}
+
+.ed-cont {
+    margin-bottom: 20px;
+
+    .pub-title {
+        font-size: 14px;
+    }
+
+    .pub-date {
+        font-size: 14px;
+        color: #5d5d5d;
+    }
+
+    .publication {
+        font-weight: bold;
+        color: #4c8dff;
+    }
+}
+
+.read-link {
+    color: #24d5ff;
+    font-size: 13px;
+    text-decoration: unset;
+
+    ion-icon {
+        position: relative;
+        top: 2px;
+    }
+}
+
+.skeleton-title {
+    line-height: 16px;
+    margin-bottom: 10px;
+}
+
+.option-buttons {
+    z-index: 1;
+
+    ion-button {
+        ion-icon {
+            font-size: 18px;
+        }
+    }
+}

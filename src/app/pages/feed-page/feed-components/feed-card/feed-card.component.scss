@@ -1,0 +1,25 @@
+ion-card {
+    margin: 16px 0;
+
+    @media (max-width: 540px) {
+        border-radius: 0;
+    }
+}
+
+.body-text {
+    padding: 0 16px;
+    margin-bottom: 16px;
+    white-space: pre-wrap;
+}
+
+.top-text-cont {
+    flex: auto;
+}
+
+.img-cont {
+    margin-bottom: 10px;
+}
+
+a {
+    text-decoration: none;
+}

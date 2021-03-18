@@ -1,0 +1,11 @@
+<div class="preview-background">
+  <div class="preview-cont">
+    <img *ngIf="mediaData.type === 'image'" class="image" [src]="mediaData.safeUri">
+
+    <video *ngIf="mediaData.type === 'video'" preload="auto" crossorigin controls width="100%">
+      <source [src]="mediaData.safeUri">
+    </video>
+
+    <app-document-card *ngIf="mediaData.type === 'document'" [filename]="mediaData.filename" [guid]="mediaData.guid"></app-document-card>
+  </div>
+</div>

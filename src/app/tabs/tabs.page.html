@@ -1,0 +1,23 @@
+<ion-tabs (ionTabsDidChange)="tabChanged($event)">
+  <ion-tab-bar slot="bottom" class="ion-hide-sm-up">
+    <ion-tab-button tab="feed">
+      <ion-icon name="reader-outline"></ion-icon>
+    </ion-tab-button>
+
+    <ion-tab-button tab="search">
+      <ion-icon name="search-outline"></ion-icon>
+    </ion-tab-button>
+
+    <ion-tab-button (click)="createPost()">
+      <ion-icon name="create-outline" class="post-button" color="light"></ion-icon>
+    </ion-tab-button>
+
+    <ion-tab-button tab="messaging">
+      <ion-icon name="chatbubbles-outline"></ion-icon>
+    </ion-tab-button>
+
+    <ion-tab-button tab="profile/{{ userId }}" [selected]="currentTab === 'profile'">
+      <ion-icon src="assets/avatar.svg"></ion-icon>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>

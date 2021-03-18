@@ -1,0 +1,14 @@
+{
+    "name": "Bleepr",
+    "short_name": "Bleepr",
+    "start_url": "./",
+    "scope": "./",
+    "display": "standalone",
+    "icons": [
+        {
+            "src": "assets/icon/PWA512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}

@@ -1,0 +1,20 @@
+<ion-list class="ion-no-padding">
+  <ion-list-header>
+    <ion-label>Stage</ion-label>
+  </ion-list-header>
+  <ion-item class="option">
+    <ion-label class="type-label">Drafts</ion-label>
+    <ion-checkbox slot="end" color="tertiary" [(ngModel)]="filterOptions.draft">
+    </ion-checkbox>
+  </ion-item>
+  <ion-item class="option">
+    <ion-label class="type-label">In Review</ion-label>
+    <ion-checkbox slot="end" color="tertiary" [(ngModel)]="filterOptions.review">
+    </ion-checkbox>
+  </ion-item>
+  <ion-item class="option" lines="none">
+    <ion-label class="type-label">Published</ion-label>
+    <ion-checkbox slot="end" color="tertiary" [(ngModel)]="filterOptions.published">
+    </ion-checkbox>
+  </ion-item>
+</ion-list>

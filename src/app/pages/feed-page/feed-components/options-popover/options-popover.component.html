@@ -1,0 +1,18 @@
+<ion-list class="ion-no-padding">
+  <ion-item *ngIf="ownContent" button detail="false" class="option" (click)="editItem()">
+    <ion-icon name="create-outline" class="option-icon"></ion-icon>
+    Edit
+  </ion-item>
+  <ion-item *ngIf="ownContent" button class="option" detail="false" (click)="deleteItem()">
+    <ion-icon name="trash-outline" class="option-icon"></ion-icon> 
+    Delete
+  </ion-item>
+  <ion-item *ngIf="!comment" button class="option" (click)="removeFromFeed()" detail="false">
+    <ion-icon name="remove-circle-outline" class="option-icon"></ion-icon>
+    Remove From Feed
+  </ion-item>
+  <ion-item *ngIf="!ownContent" button class="option" lines="none" detail="false" (click)="reportContent()">
+    <ion-icon name="alert-outline" class="option-icon"></ion-icon> 
+    Report Content
+  </ion-item>
+</ion-list>

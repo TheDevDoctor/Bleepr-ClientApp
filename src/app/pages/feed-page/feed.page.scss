@@ -1,0 +1,93 @@
+ion-col,
+ion-grid {
+  @media (max-width: 540px) {
+    padding: 0;
+  }
+}
+
+.welcome-card img {
+  max-height: 35vh;
+  overflow: hidden;
+}
+
+.main-header {
+  position: relative;
+  top: 0;
+  transition: top 1s;
+
+  &.hidden {
+    top: -100px;
+  }
+}
+
+.featured-card {
+  margin: 30px 60px;
+  height: 24vh;
+  max-height: 24vh;
+  width: 100%;
+  // background-image: url(/assets/images/winter_meet.jpeg);
+  background-size: cover;
+  background-position: center;
+
+  .cover {
+    height: 100%;
+    width: 100%;
+    background: #0000004f;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+
+    .text-cont {
+      width: 100%;
+      text-align: flex-start;
+      padding: 6px 12px;
+      background: #00000091;
+
+      h5,
+      p {
+        margin: 2px;
+        color: #ffffffd6;
+      }
+    }
+
+    .fade {
+      background: linear-gradient(to bottom, #00000091, transparent);
+      height: 10px;
+      width: 100%;
+    }
+  }
+}
+
+ion-slides {
+  position: relative;
+  left: -5%;
+  width: 105%;
+}
+
+.features-title {
+  font-size: 2rem;
+  padding: 30px 40px 0;
+
+}
+
+.feed-title {
+  font-size: 2rem;
+  padding: 0px 40px;
+}
+
+.refresh-cont {
+  display: flex;
+  align-items: center;
+
+  hr {
+    flex: auto;
+    height: 2px;
+  }
+
+  ion-button {
+    --padding-start: 2px;
+    --padding-end: 2px;
+    height: 30px;
+    font-size: 18px;
+  }
+}

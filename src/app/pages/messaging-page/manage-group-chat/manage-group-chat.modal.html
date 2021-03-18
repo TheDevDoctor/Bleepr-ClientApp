@@ -1,0 +1,74 @@
+<!--HEADER SECTION----------------------------------------------------->
+<ion-header translucent="true" mode="ios" class="list-header">
+  <form (ngSubmit)="postGroupConversation()" #groupChatForm="ngForm">
+    <ion-toolbar mode="ios" class="segment-toolbar">
+      <ion-buttons slot="start">
+        <ion-button (click)="dismissModal(false)">Cancel</ion-button>
+      </ion-buttons>
+      <ion-title class="ion-text-capitalize">
+        <!--If there is a conversation doc provided as input, we are managing a group-->
+        {{ newGroup ? 'New Group' : 'Manage Group' }}
+      </ion-title>
+      <ion-buttons slot="end">
+        <!--If we're creating a new group, show create button-->
+        <ion-button type="submit" [disabled]="!groupChatForm.form.valid">
+          {{ newGroup ? 'Create' : 'Update' }}
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+    <!--Group icon and name-->
+    <ion-toolbar class="group-toolbar" color="tertiary">
+      <ion-avatar slot="start" tappable (click)="selectGroupImageModal()">
+        <div class="group-image" [ngStyle]="{'background-image': 'url(' + groupImageUri + ')'}"></div>
+      </ion-avatar>
+      <ion-input type="text" name="groupName" maxlength="30" placeholder="Name your group..." #name="ngModel"
+        [(ngModel)]="conversation.groupName" required>
+      </ion-input>
+      <small [hidden]="name.valid || name.pristine" class="group-name-validation">
+        Please provide a group name
+      </small>
+    </ion-toolbar>
+  </form>
+</ion-header>
+
+<!--MAIN CONTENT--------------------------------------------------------->
+<ion-content fullscreen>
+
+  <!--Members list-->
+  <ion-list *ngIf="conversation.memberFragments && conversation.memberFragments.length > 0">
+    <ion-list-header>
+      <ion-label>Members</ion-label>
+    </ion-list-header>
+    <ng-container *ngFor="let member of conversation.memberFragments">
+      
+      <!--Sliding item to display conversation member-->
+      <ion-item-sliding lines="none">
+        <ion-item lines="none" class="slidable-item">
+          <ion-card class="contact-card" button>
+            <app-user-fragment [fragment]="member" [routable]="false"></app-user-fragment>
+          </ion-card>
+        </ion-item>
+
+        <ion-item-options side="end" lines="none">
+          <ion-item-option style="background: transparent;" class="end-button">
+            <ion-icon name="person-remove-outline" slot="icon-only" color="danger"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+
+    </ng-container>
+  </ion-list>
+
+  <!--Add new members floating button-->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="tertiary" (click)="addOrModifyMembers()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <!--Loading container if no groupMembers currently inputted-->
+  <div *ngIf="!conversation.memberFragments" class="loading-container">
+    <ion-spinner color="tertiary" name="crescent" class="spinner"></ion-spinner>
+  </div>
+
+</ion-content>

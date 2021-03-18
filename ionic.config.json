@@ -1,0 +1,9 @@
+{
+  "name": "Bleepr",
+  "integrations": {
+    "capacitor": {},
+    "cordova": {}
+  },
+  "type": "angular",
+  "id": "88eea6b7"
+}

@@ -1,0 +1,22 @@
+ion-col,
+ion-grid {
+  @media (max-width: 540px) {
+    padding: 0;
+  }
+}
+
+ion-back-button {
+  padding: 10px;
+}
+
+.spin-container {
+  display: flex;
+  min-height: 100%;
+  align-items: center;
+  justify-content: space-around;
+
+  ion-spinner {
+    min-width: 50px;
+    min-height: 50px;
+  }
+}

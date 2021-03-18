@@ -1,0 +1,63 @@
+ion-tab-button {
+    font-size: 16px;
+}
+
+ion-content, ion-item {
+    --background: white;
+}
+ion-list {
+    background: white;
+    padding: 0;
+}
+
+ion-label {
+    h1 {
+        margin-bottom: 10px;
+    }
+
+    h4 {
+        color: #5a5a5a;
+        font-size: 16px;
+        margin-bottom: 8px;
+    }
+}
+
+ion-item {
+    --inner-padding-end: 0;
+}
+
+.spinner-cont {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.bottom-cont {
+    display: flex;
+    justify-content: space-between;
+}
+
+.delete-cont {
+    height: 100%;
+    background: #ffe4e4;
+    display: flex;
+    align-items: center;
+}
+
+.delete-button {
+    height: 100%;
+}
+
+.no-articles-container {
+    height: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    color: #676767;
+
+    div {
+        text-align: center;
+        padding: 34px;    
+    }
+}

@@ -1,0 +1,45 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-title>Settings</ion-title>
+    <ion-buttons slot="end">
+      <ion-button onclick="updateUserSettings()">Update</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="settingsForm">
+    <!-- <ion-list>
+      <ion-radio-group formControlName="privacy">
+        <ion-list-header>
+          <ion-label>Privacy</ion-label>
+        </ion-list-header>
+        <ion-item>
+          <ion-label>Public</ion-label>
+          <ion-radio slot="start" color="success" value="public"></ion-radio>
+          <ion-chip slot="end" color="secondary">
+            <ion-label>Recommended</ion-label>
+          </ion-chip>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Private</ion-label>
+          <ion-radio slot="start" color="tertiary" value="private"></ion-radio>
+        </ion-item>
+      </ion-radio-group>
+    </ion-list>
+    <div class="privacy-text">
+      {{ privacyText[this.settingsForm.controls.privacy.value] }}
+    </div> -->
+    <div class="delete-cont">
+      <ion-button expand="block" color="danger" fill="outline" (click)="onDeleteAccount()">Delete Account</ion-button>
+      <div class="delete-confirm-cont" *ngIf="canDeleteAccount">
+        <div class="delete-confirm-text">Are you sure you want to delete your account. This will delete your account and all your content, including any articles you have created.</div>
+        <div class="delete-confirm-buttons">
+          <ion-button expand="block" color="danger" fill="outline" (click)="onConfirmDeleteAccount()">Yes I am sure</ion-button>
+          <ion-button expand="block" color="secondary" fill="outline" (click)="onDeleteAccount()">No I don't</ion-button>
+        </div>
+      </div>
+    </div>
+  </form>
+</ion-content>
